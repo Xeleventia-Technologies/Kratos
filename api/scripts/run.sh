@@ -1,1 +1,1 @@
-dotnet run --project src --launch-profile https
+dotnet run --project api/src --launch-profile http
