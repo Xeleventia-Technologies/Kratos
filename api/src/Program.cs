@@ -13,11 +13,11 @@ builder.Services.AddProblemDetails();
 
 // ----Add services here-----
 builder.Services.AddCommonServices();
-builder.Services.AddJwtAuth(builder.Configuration.GetRequiredSection(JwtOptions.SectionName).Get<JwtOptions>()!);
 builder.Services.AddServicesFromAssembly();
 // --------------------------
 
 builder.Services.AddFirebase();
+builder.Services.AddJwtAuth(builder.Configuration.GetRequiredSection(JwtOptions.SectionName).Get<JwtOptions>()!);
 builder.Services.AddDatabase(builder.Configuration.GetConnectionString("Default")!);
 builder.Services.AddCors();
 

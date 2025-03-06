@@ -1,9 +1,11 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 using Serilog;
 
 using Kratos.Api.Common;
 using Kratos.Api.Database;
+using Kratos.Api.Database.Models.Identity;
 
 namespace Kratos.Api.Startup;
 
@@ -47,6 +49,10 @@ public static class Services
     public static IServiceCollection AddDatabase(this IServiceCollection services, string connectionString)
     {
         services.AddDbContext<DatabaseContext>(options => options.UseNpgsql(DataSource.OfPostgres(connectionString)));
+        services.AddIdentity<User, Role>()
+            .AddEntityFrameworkStores<DatabaseContext>()
+            .AddDefaultTokenProviders();
+            
         return services;
     }
     

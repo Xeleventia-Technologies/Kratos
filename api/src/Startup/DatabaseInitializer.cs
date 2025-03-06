@@ -47,41 +47,55 @@ public static class DatabaseInitializer
             return;
         }
 
-        await CreateDefaultAdminUsers(database, userManager);
-        await CreateDefaultNormalUsers(database, userManager);
+        await CreateDefaultAdminUsers(userManager);
+        await CreateDefaultNormalUsers(userManager);
     }
 
-    private static async Task CreateDefaultAdminUsers(DatabaseContext database, UserManager<User> userManager)
+    private static async Task CreateDefaultAdminUsers(UserManager<User> userManager)
     {
         // TODO: Make this data driven
         Dictionary<string, string> defaultAdmins = new()
         {
-            ["admin"] = "admin",
+            ["admin"] = "Admin@1234",
         };
 
         foreach (KeyValuePair<string, string> defaultAdmin in defaultAdmins)
         {
-            User user = new() { UserName = defaultAdmin.Key };
-            string password = defaultAdmin.Value;
+            User user = new()
+            {
+                UserName = defaultAdmin.Key,
+                Email = defaultAdmin.Key,
+                EmailConfirmed = true,
+                SecurityStamp = Guid.NewGuid().ToString(),
+                AuthProvider = AuthProvider.Email,
+            };
 
+            string password = defaultAdmin.Value;
             await userManager.CreateAsync(user, password);
             await userManager.AddToRoleAsync(user, Auth.Roles.Admin);
         }
     }
 
-    private static async Task CreateDefaultNormalUsers(DatabaseContext database, UserManager<User> userManager)
+    private static async Task CreateDefaultNormalUsers(UserManager<User> userManager)
     {
         // TODO: Make this data driven
         Dictionary<string, string> defaultUsers = new()
         {
-            ["user1"] = "user1",
+            ["user1"] = "User1@1234",
         };
 
         foreach (KeyValuePair<string, string> defaultUser in defaultUsers)
         {
-            User user = new() { UserName = defaultUser.Key };
-            string password = defaultUser.Value;
+            User user = new()
+            {
+                UserName = defaultUser.Key,
+                Email = defaultUser.Key,
+                EmailConfirmed = true,
+                SecurityStamp = Guid.NewGuid().ToString(),
+                AuthProvider = AuthProvider.Email,
+            };
 
+            string password = defaultUser.Value;
             await userManager.CreateAsync(user, password);
             await userManager.AddToRoleAsync(user, Auth.Roles.Admin);
         }
