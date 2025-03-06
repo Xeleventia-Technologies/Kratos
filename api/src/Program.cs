@@ -2,6 +2,8 @@ using Serilog;
 
 using Kratos.Api.Middleware;
 using Kratos.Api.Startup;
+using Kratos.WebApi.Startup;
+using Kratos.WebApi.Common.Options;
 
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
@@ -11,6 +13,7 @@ builder.Services.AddProblemDetails();
 
 // ----Add services here-----
 builder.Services.AddCommonServices();
+builder.Services.AddJwtAuth(builder.Configuration.GetRequiredSection(JwtOptions.SectionName).Get<JwtOptions>()!);
 builder.Services.AddServicesFromAssembly();
 // --------------------------
 
@@ -50,6 +53,9 @@ app.UseCors(x => x
 );
 
 app.UseFileServer();
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.UseForwardedHeaders();
 app.UseExceptionHandler();
