@@ -1,0 +1,40 @@
+﻿namespace Kratos.Api.Common.Types;
+
+#region Do not touch
+public class ResultBase
+{
+    public bool IsSuccess { get; set; }
+    public Error? Error { get; set; } = null!;
+}
+
+public class Result<T> : ResultBase where T : class
+{
+    public T Value { get; set; } = null!;
+
+    public Result AsNonGeneric() => new()
+    {
+        IsSuccess = IsSuccess,
+        Error = Error
+    }; 
+
+    public static implicit operator Result<T>(Result result) => new()
+    {
+        IsSuccess = result.IsSuccess,
+        Error = result.Error
+    };
+}
+#endregion
+
+public class Result : ResultBase
+{
+    public static Result Success() => new() { IsSuccess = true };
+    public static Result<T> Success<T>(T value) where T : class => new() { IsSuccess = true, Value = value };
+
+    public static Result Fail(Error error) => new() { Error = error };
+    
+    public static Result Fail(string? message = null) => Fail(new Error(message));
+    public static Result UnauthorizedError(string? message = null) => Fail(new UnauthorizedError(message));
+    public static Result ConflictError(string? message = null) => Fail(new ConflictError(message));
+    public static Result NotFoundError(string? message = null) => Fail(new NotFoundError(message));
+    public static Result CannotProcessError(string? message = null) => Fail(new CannotProcessError(message));
+}

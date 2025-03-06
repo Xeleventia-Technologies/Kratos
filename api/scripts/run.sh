@@ -1,0 +1,1 @@
+dotnet run --project src --launch-profile https

@@ -1,0 +1,58 @@
+using Serilog;
+
+using Kratos.Api.Middleware;
+using Kratos.Api.Startup;
+
+
+WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
+
+builder.Host.UseSerilogWithConfig(builder.Configuration);
+builder.Services.AddProblemDetails();
+
+// ----Add services here-----
+builder.Services.AddCommonServices();
+builder.Services.AddServicesFromAssembly();
+// --------------------------
+
+builder.Services.AddFirebase();
+builder.Services.AddDatabase(builder.Configuration.GetConnectionString("Default")!);
+builder.Services.AddCors();
+
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen(options => { options.CustomSchemaIds(type => type.ToString()); });
+
+var app = builder.Build();
+
+app.CreateRequiredFolders();
+await app.InitializeDatabaseAsync();
+
+app.UseSerilogRequestLogging();
+
+// ----Map endpoints here-----
+app.MapEndpointsFromAssembly();
+// --------------------------
+
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+
+app.UseHsts();
+app.UseHttpsRedirection();
+
+app.UseCors(x => x
+    .SetIsOriginAllowed(_ => true)
+    .AllowAnyMethod()
+    .AllowAnyHeader()
+    .AllowCredentials()
+    .WithExposedHeaders("Content-Disposition")
+);
+
+app.UseFileServer();
+
+app.UseForwardedHeaders();
+app.UseExceptionHandler();
+
+app.Run();
+await Log.CloseAndFlushAsync();

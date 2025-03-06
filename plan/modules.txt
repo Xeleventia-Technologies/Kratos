@@ -1,0 +1,19 @@
+Modules:
+=========
+
+Contact us
+About us
+
+Services
+    - SubServices
+        - Multiple levels?
+
+Blog
+    - Approval first, then publish
+    - Admin side blog
+
+Community
+    - Questions & Answers with moderation and up/down votes
+
+Testimonials for users
+Team members
