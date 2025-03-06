@@ -23,6 +23,7 @@ public class DatabaseContext(DbContextOptions options) : IdentityDbContext<User,
     public DbSet<Profile> Profiles { get; set; }
     public DbSet<Service> Services { get; set; }
     public DbSet<ThreadComment> ThreadComments { get; set; }
+    public DbSet<Testimonial> Testimonials { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
