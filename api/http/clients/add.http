@@ -1,0 +1,7 @@
+POST https://localhost:5000/clients
+Content-Type: application/json
+
+{
+    "CloudStorageLink" : "https://www.google.com",
+    "UserId" : 1
+}
