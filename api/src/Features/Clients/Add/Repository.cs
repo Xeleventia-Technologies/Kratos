@@ -24,5 +24,4 @@ public class Repository([FromServices] DatabaseContext database) : IRepository
         database.Clients.Add(client);
         return database.SaveChangesAsync(cancellationToken);
     }
-
 }
