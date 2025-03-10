@@ -13,6 +13,8 @@ public class Forum
     public long CreatedByUserId { get; set; }
     public virtual User CreatedByUser { get; set; } = null!;
 
+    public virtual List<ForumThread> Threads { get; set; } = null!;
+
     public bool IsDeleted { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }

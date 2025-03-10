@@ -9,6 +9,9 @@ public class ForumThread
     public string Title { get; set; } = null!;
     public string Text { get; set; } = null!;
 
+    public long ForumId { get; set; }
+    public virtual Forum Forum { get; set; } = null!;
+
     public long CreatedByUserId { get; set; }
     public virtual User CreatedByUser { get; set; } = null!;
 

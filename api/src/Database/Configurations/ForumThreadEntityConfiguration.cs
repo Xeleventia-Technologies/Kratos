@@ -22,6 +22,9 @@ public class ForumThreadEntityConfiguration : IEntityTypeConfiguration<ForumThre
             .IsRequired()
             .HasMaxLength(255);
 
+        builder.Property(x => x.ForumId)
+            .IsRequired();
+
         builder.Property(x => x.CreatedByUserId)
             .IsRequired();
 
@@ -38,10 +41,16 @@ public class ForumThreadEntityConfiguration : IEntityTypeConfiguration<ForumThre
             .HasDefaultValueSql("now()");
 
         builder
+            .HasOne(x => x.Forum)
+            .WithMany(x => x.Threads)
+            .HasForeignKey(x => x.ForumId);
+
+        builder
             .HasOne(x => x.CreatedByUser)
             .WithMany()
             .HasForeignKey(x => x.CreatedByUserId);
 
+        builder.HasIndex(x => x.ForumId);
         builder.HasIndex(x => x.CreatedByUserId);
         builder.HasIndex(x => x.CreatedAt);
     }
