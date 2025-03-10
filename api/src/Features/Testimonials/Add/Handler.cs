@@ -18,12 +18,12 @@ public class Handler
         CancellationToken cancellationToken
     )
     {
-        logger.LogInformation("Adding testimonial for user {UserId} with text {Text}", request.UserId, request.Text);
+        logger.LogInformation("Adding testimonial for user {UserId} with text '{Text}'", request.UserId, request.Text);
 
         ValidationResult validationResult = await requestValidator.ValidateAsync(request, cancellationToken);
         if (!validationResult.IsValid)
         {
-            logger.LogInformation("RequestValidation failed");
+            logger.LogInformation("Request validation failed. Reason: {Error}", validationResult.ToString());
             return validationResult.AsHttpError();
         }
 
