@@ -22,7 +22,7 @@ public class ClientEntityConfiguration : IEntityTypeConfiguration<Client>
             .IsRequired()
             .HasDefaultValueSql("now()");
 
-        builder.Property(x => x.UpdateAt)
+        builder.Property(x => x.UpdatedAt)
             .IsRequired()
             .HasDefaultValueSql("now()");
 

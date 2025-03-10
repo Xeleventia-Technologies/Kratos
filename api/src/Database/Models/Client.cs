@@ -12,6 +12,5 @@ public class Client
     public virtual User User { get; set; } = null!;
 
     public DateTime CreatedAt { get; set; }
-    public DateTime UpdateAt { get; set; }
-
+    public DateTime UpdatedAt { get; set; }
 }
