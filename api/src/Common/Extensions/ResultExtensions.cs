@@ -32,6 +32,7 @@ public static class ResultExtensions
             ConflictError err => Results.Problem(statusCode: StatusCodes.Status409Conflict, detail: err.Message),
             NotFoundError err => Results.Problem(statusCode: StatusCodes.Status404NotFound, detail: err.Message),
             CannotProcessError err => Results.Problem(statusCode: StatusCodes.Status422UnprocessableEntity, detail: err.Message),
+            BadRequestError err => Results.Problem(statusCode: StatusCodes.Status400BadRequest, detail: err.Message),
 
             Error err => Results.Problem(err.Message),
             _ => Results.Problem()

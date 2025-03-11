@@ -6,8 +6,7 @@ public static class Folders
     {
         public static readonly string Directory = "uploads";
 
-        public static readonly string Avatars = $"{Directory}/avatars";
-        public static readonly string Images = $"{Directory}/images";
+        public static readonly string Services = $"{Directory}/services";
     }
 
     public static class Images
