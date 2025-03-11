@@ -34,7 +34,7 @@ public class ServiceEntityConfiguration : IEntityTypeConfiguration<Service>
             .IsRequired()
             .HasDefaultValue(false);
 
-        builder.Property(x => x.CreateAt)
+        builder.Property(x => x.CreatedAt)
             .IsRequired()
             .HasDefaultValueSql("now()");
 

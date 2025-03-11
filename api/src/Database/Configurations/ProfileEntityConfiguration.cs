@@ -30,7 +30,7 @@ public class ProfileEntityConfiguration : IEntityTypeConfiguration<Profile>
             .IsRequired()
             .HasMaxLength(10);
 
-        builder.Property(x => x.CreateAt)
+        builder.Property(x => x.CreatedAt)
             .IsRequired()
             .HasDefaultValueSql("now()");
 
