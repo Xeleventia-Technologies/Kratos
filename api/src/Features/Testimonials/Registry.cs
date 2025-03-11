@@ -9,8 +9,8 @@ public class Registry : IRegistry
     public void MapEndpoints(WebApplication app)
     {
         app.MapGet("/testimonials", GetAll.Handler.HandleAsync);
-        app.MapPost("/testimonials", Add.Handler.HandleAsync);
-        app.MapDelete("/testimonials/{userId}", Delete.Handler.HandleAsync);
+        app.MapPost("/testimonial", Add.Handler.HandleAsync);
+        app.MapDelete("/testimonial/{userId}", Delete.Handler.HandleAsync);
     }
 
     public void AddServices(IServiceCollection services)

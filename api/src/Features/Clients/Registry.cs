@@ -8,7 +8,7 @@ public class Registry : IRegistry
 {
     public void MapEndpoints(WebApplication app)
     {
-        app.MapPost("/clients", Add.Handler.AddAsync);
+        app.MapPost("/client", Add.Handler.AddAsync);
     }
 
     public void AddServices(IServiceCollection services)
