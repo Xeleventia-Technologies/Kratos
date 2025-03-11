@@ -1,0 +1,22 @@
+### @name Add
+POST https://localhost:5000/service
+Content-Type: multipart/form-data; boundary=WebKitFormBoundary
+
+--WebKitFormBoundary
+Content-Disposition: form-data; name="name"
+
+Test Service
+--WebKitFormBoundary
+Content-Disposition: form-data; name="summary"
+
+Test Service Summary
+--WebKitFormBoundary
+Content-Disposition: form-data; name="description"
+
+Test Service Description
+--WebKitFormBoundary
+Content-Disposition: form-data; name="image"; filename="1.png"
+Content-Type: image/png
+
+< /home/max/Desktop/1.png
+--WebKitFormBoundary--
