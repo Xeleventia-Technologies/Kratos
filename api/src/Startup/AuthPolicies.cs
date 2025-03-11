@@ -4,10 +4,10 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.IdentityModel.Tokens;
 
-using Kratos.WebApi.Common.Options;
-using Kratos.WebApi.Common.Constants;
+using Kratos.Api.Common.Options;
+using Kratos.Api.Common.Constants;
 
-namespace Kratos.WebApi.Startup;
+namespace Kratos.Api.Startup;
 
 public static class AuthPolicies
 {

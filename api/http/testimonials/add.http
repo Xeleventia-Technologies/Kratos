@@ -2,6 +2,6 @@ POST https://localhost:5000/testimonials
 Content-Type: application/json
 
 {
-    "text": "Hello",
-    "userId": 1
+    "text": "Hi 123",
+    "userId": 2
 }

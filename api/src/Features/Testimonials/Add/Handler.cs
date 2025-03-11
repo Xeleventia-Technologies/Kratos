@@ -10,7 +10,7 @@ namespace Kratos.Api.Features.Testimonials.Add;
 
 public class Handler
 {
-    public static async Task<IResult> AddAsync(
+    public static async Task<IResult> HandleAsync(
         [FromBody] Request request,
         [FromServices] IValidator<Request> requestValidator,
         [FromServices] Service service,
@@ -23,18 +23,18 @@ public class Handler
         ValidationResult validationResult = await requestValidator.ValidateAsync(request, cancellationToken);
         if (!validationResult.IsValid)
         {
-            logger.LogInformation("Request validation failed. Reason: {Error}", validationResult.ToString());
+            logger.LogError("Request validation failed. Reason: {Error}", validationResult.ToString());
             return validationResult.AsHttpError();
         }
 
         Result serviceResult = await service.AddAsync(request.AsTestimonial(), cancellationToken);
         if (!serviceResult.IsSuccess)
         {
-            logger.LogInformation("Operation was not successful: {Error}", serviceResult.Error!.Message);
+            logger.LogError("Could not add testimonial. Reason: {Error}", serviceResult.Error!.Message);
             return serviceResult.Error.AsHttpError();
         }
 
-        logger.LogInformation("Operation was successful");
+        logger.LogInformation("Testimonial added successfully.");
         return Results.Created();
     }
 }

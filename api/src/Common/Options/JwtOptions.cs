@@ -1,4 +1,4 @@
-namespace Kratos.WebApi.Common.Options;
+namespace Kratos.Api.Common.Options;
 
 public class JwtOptions
 {

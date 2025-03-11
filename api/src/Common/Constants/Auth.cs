@@ -1,4 +1,4 @@
-namespace Kratos.WebApi.Common.Constants;
+namespace Kratos.Api.Common.Constants;
 
 public static class Auth
 {

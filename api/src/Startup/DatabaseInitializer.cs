@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Identity;
 
 using Kratos.Api.Database;
 using Kratos.Api.Database.Models.Identity;
-using Kratos.WebApi.Common.Constants;
+using Kratos.Api.Common.Constants;
 
 namespace Kratos.Api.Startup;
 

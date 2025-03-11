@@ -2,8 +2,7 @@ using Serilog;
 
 using Kratos.Api.Middleware;
 using Kratos.Api.Startup;
-using Kratos.WebApi.Startup;
-using Kratos.WebApi.Common.Options;
+using Kratos.Api.Common.Options;
 
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
