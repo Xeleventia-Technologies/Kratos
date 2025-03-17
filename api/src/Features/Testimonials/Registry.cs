@@ -10,7 +10,7 @@ public class Registry : IRegistry
     {
         app.MapGet("/testimonials", GetAll.Handler.HandleAsync);
         app.MapPost("/testimonial", Add.Handler.HandleAsync);
-        app.MapDelete("/testimonial/{userId}", Delete.Handler.HandleAsync);
+        app.MapDelete("/testimonial/user/{userId}", Delete.Handler.HandleAsync);
     }
 
     public void AddServices(IServiceCollection services)

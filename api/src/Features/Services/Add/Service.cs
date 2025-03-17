@@ -2,32 +2,20 @@ using Microsoft.AspNetCore.Mvc;
 
 using Kratos.Api.Common.Types;
 using Kratos.Api.Common.Constants;
+using Kratos.Api.Common.Services;
 
 namespace Kratos.Api.Features.Services.Add;
 
 public class Service(
-    IWebHostEnvironment environment,
+    [FromServices] IImageUploadService imageUploadService,
     [FromServices] IRepository repo
 )
 {
-    private async Task<string> UploadImageAsync(IFormFile file, CancellationToken cancellationToken)
-    {
-        long currentUnixTimestamp = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
-        string extension = Path.GetExtension(file.FileName);
-        string fileName = $"{currentUnixTimestamp}{extension}";
-        string uploadPath = Path.Join(environment.WebRootPath, Folders.Uploads.Services, fileName);
-
-        using FileStream fileStream = File.OpenWrite(uploadPath);
-        await file.CopyToAsync(fileStream, cancellationToken);
-        
-        return fileName;
-    }
-
     public async Task<Result> AddAsync(Database.Models.Service service, IFormFile file, CancellationToken cancellationToken)
     {
         try
         {
-            string fileName = await UploadImageAsync(file, cancellationToken);
+            string fileName = await imageUploadService.UploadImageAsync(Folders.Uploads.Services, file, cancellationToken);
             service.ImageFileName = fileName;
 
             await repo.AddServiceAsync(service, cancellationToken);

@@ -2,23 +2,11 @@
 
 public static class Folders
 {
-    public static class Uploads
+    public readonly record struct Uploads(string Name)
     {
-        public static readonly string Directory = "uploads";
+        public static readonly Uploads Directory = new("uploads");
+        public static readonly Uploads Services = new($"{Directory}/services");
 
-        public static readonly string Services = $"{Directory}/services";
-    }
-
-    public static class Images
-    {
-        public static readonly string Directory = "images";
-    }
-}
-
-public static class Files
-{
-    public static class Images
-    {
-        public static readonly string Logo = $"{Folders.Images.Directory}/logo.png";
+        public override string ToString() => Name;
     }
 }

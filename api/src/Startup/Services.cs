@@ -6,6 +6,7 @@ using Serilog;
 using Kratos.Api.Common;
 using Kratos.Api.Database;
 using Kratos.Api.Database.Models.Identity;
+using Kratos.Api.Common.Services;
 
 namespace Kratos.Api.Startup;
 
@@ -37,6 +38,7 @@ public static class Services
 
     public static IServiceCollection AddCommonServices(this IServiceCollection services)
     {
+        services.AddScoped<IImageUploadService, ImageUploadService>();
         return services;
     }
 
