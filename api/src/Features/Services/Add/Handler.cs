@@ -11,14 +11,14 @@ public class Handler
 {
     public static async Task<IResult> HandleAsync(
         [FromForm] Request request,
-        [FromServices] IValidator<Request> requestrValidator,
+        [FromServices] IValidator<Request> requestValidator,
         [FromServices] Service service,
         [FromServices] ILogger<Handler> logger,
         CancellationToken cancellationToken
     )
     {
         logger.LogInformation("Adding Service with name {Name}", request.Name);
-        ValidationResult validationResult = await requestrValidator.ValidateAsync(request, cancellationToken);
+        ValidationResult validationResult = await requestValidator.ValidateAsync(request, cancellationToken);
         
         if (!validationResult.IsValid)
         {
