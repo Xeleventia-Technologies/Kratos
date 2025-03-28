@@ -1,5 +1,4 @@
-rm -rf ./api/src/Migrations/*
-dotnet build api/src &&
+del /s /q .\api\src\Migrations
 dotnet ef database drop --project api/src --force --no-build && 
 dotnet ef migrations add Initial --project api/src --no-build &&
 dotnet build api/src &&

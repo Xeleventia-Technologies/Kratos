@@ -1,1 +1,0 @@
-dotnet watch --project api/src --launch-profile http

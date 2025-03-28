@@ -1,1 +1,0 @@
-dotnet run --project api/src --launch-profile http
