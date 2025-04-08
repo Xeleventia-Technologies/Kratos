@@ -1,7 +1,0 @@
-POST https://localhost:5000/testimonials
-Content-Type: application/json
-
-{
-    "text": "Hi 123",
-    "userId": 2
-}

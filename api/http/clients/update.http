@@ -1,7 +1,0 @@
-### @name Update
-PUT https://localhost:5000/client/1
-Content-Type: application/json
-
-{
-    "CloudStorageLink" : "https://www.google.com",
-}
