@@ -67,7 +67,6 @@ public static class DatabaseInitializer
                 Email = defaultAdmin.Key,
                 EmailConfirmed = true,
                 SecurityStamp = Guid.NewGuid().ToString(),
-                AuthProvider = AuthProvider.Email,
             };
 
             string password = defaultAdmin.Value;
@@ -92,7 +91,6 @@ public static class DatabaseInitializer
                 Email = defaultUser.Key,
                 EmailConfirmed = true,
                 SecurityStamp = Guid.NewGuid().ToString(),
-                AuthProvider = AuthProvider.Email,
             };
 
             string password = defaultUser.Value;

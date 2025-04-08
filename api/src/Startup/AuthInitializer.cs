@@ -9,7 +9,7 @@ using Kratos.Api.Common.Constants;
 
 namespace Kratos.Api.Startup;
 
-public static class AuthPolicies
+public static class AuthInitializer
 {
     public static void AddJwtAuth(this IServiceCollection services, JwtOptions jwtOptions)
     {

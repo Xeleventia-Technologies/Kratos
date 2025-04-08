@@ -10,7 +10,7 @@ using Kratos.Api.Common.Services;
 
 namespace Kratos.Api.Startup;
 
-public static class Services
+public static class Assembly
 {
     public static IServiceCollection AddServicesFromAssembly(this IServiceCollection services)
     {
@@ -38,7 +38,9 @@ public static class Services
 
     public static IServiceCollection AddCommonServices(this IServiceCollection services)
     {
+        services.AddScoped<IEmailService, EmailService>();
         services.AddScoped<IImageUploadService, ImageUploadService>();
+        
         return services;
     }
 

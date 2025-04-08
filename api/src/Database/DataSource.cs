@@ -15,7 +15,6 @@ public static class DataSource
 
         var dbSourceBuilder = new NpgsqlDataSourceBuilder(connectionString);
 
-        // Enums
         dbSourceBuilder.MapEnum<Enums.BlogApprovalStaus>();
         dbSourceBuilder.MapEnum<Enums.BlogVoteType>();
         dbSourceBuilder.MapEnum<Enums.ForumThreadVoteType>();

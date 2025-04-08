@@ -7,9 +7,8 @@ using Kratos.Api.Database.Models.Identity;
 
 namespace Kratos.Api.Database;
 
-public class DatabaseContext(DbContextOptions options) : IdentityDbContext<User, Role, long, UserClaim, UserRole, UserLogin, RoleClaim, UserTokenIgnored>(options)
+public class DatabaseContext(DbContextOptions options) : IdentityDbContext<User, Role, long, UserClaim, UserRole, UserLogin, RoleClaim, UserToken>(options)
 {
-    // Models
     public DbSet<AssignedOptedInService> AssignedOptedInServices { get; set; }
     public DbSet<AssignedOptedInServiceQuery> AssignedOptedInServiceQueries { get; set; }
     public DbSet<Blog> Blogs { get; set; }
@@ -29,12 +28,10 @@ public class DatabaseContext(DbContextOptions options) : IdentityDbContext<User,
     {
         base.OnModelCreating(builder);
 
-        // Enums
         builder.HasPostgresEnum<Enums.BlogApprovalStaus>();
         builder.HasPostgresEnum<Enums.BlogVoteType>();
         builder.HasPostgresEnum<Enums.ForumThreadVoteType>();
 
-        // Configurations
         new AssignedOptedInServiceEntityConfiguration().Configure(builder.Entity<AssignedOptedInService>());
         new AssignedOptedInServiceQueryEntityConfiguration().Configure(builder.Entity<AssignedOptedInServiceQuery>());
         new BlogEntityConfiguration().Configure(builder.Entity<Blog>());

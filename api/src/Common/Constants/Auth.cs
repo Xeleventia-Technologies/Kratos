@@ -2,17 +2,22 @@ namespace Kratos.Api.Common.Constants;
 
 public static class Auth
 {
-    public static class TokenTypes
+    public readonly record struct LoginProvider(string Name)
     {
-        public static readonly string AccessToken = "AccessToken";
-        public static readonly string RefreshToken = "RefreshToken";
+        public static readonly LoginProvider Self = new("Self");
+        public static readonly LoginProvider Google = new("Google");
+    }
+
+    public readonly record struct TokenType(string Name)
+    {
+        public static readonly TokenType AccessToken = new("AccessToken");
+        public static readonly TokenType RefreshToken = new("RefreshToken");
     }
 
     public static class Schemes
     {
         public static readonly string ValidJwt = "ValidJwtScheme";
         public static readonly string ExpiredJwt = "ExpiredJwtScheme";
-
     }
 
     public static class Roles
@@ -30,9 +35,10 @@ public static class Auth
         public static readonly string RequireUser = "User";
     }
 
-    public static class Claims
+    public readonly record struct Claim(string Name)
     {
-        public static readonly string UserId = "UserId";
-        public static readonly string TokenType = "TokenType";
+        public static readonly Claim UserId = new("UserId");
+        public static readonly Claim TokenType = new("TokenType");
+        public static readonly Claim Permission = new("Permission");
     }
 }
