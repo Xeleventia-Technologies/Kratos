@@ -2,12 +2,6 @@ namespace Kratos.Api.Common.Constants;
 
 public static class Auth
 {
-    public readonly record struct LoginProvider(string Name)
-    {
-        public static readonly LoginProvider Self = new("Self");
-        public static readonly LoginProvider Google = new("Google");
-    }
-
     public readonly record struct TokenType(string Name)
     {
         public static readonly TokenType AccessToken = new("AccessToken");

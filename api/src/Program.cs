@@ -11,6 +11,7 @@ builder.Host.UseSerilogWithConfig(builder.Configuration);
 builder.Services.AddProblemDetails();
 
 // ----Add services here-----
+builder.Services.ConfigureOptions(builder.Configuration);
 builder.Services.AddCommonServices();
 builder.Services.AddServicesFromAssembly();
 // --------------------------

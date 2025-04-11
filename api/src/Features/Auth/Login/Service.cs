@@ -1,22 +1,24 @@
-using DotNetClaim = System.Security.Claims.Claim;
+using System.Security.Claims;
 
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
 
-using Kratos.Api.Features.Auth.Token;
-using Kratos.Api.Database.Models.Identity;
 using Kratos.Api.Common.Types;
-
-using static Kratos.Api.Common.Constants.Auth;
+using Kratos.Api.Common.Options;
+using Kratos.Api.Database.Models;
+using Kratos.Api.Database.Models.Identity;
+using Kratos.Api.Features.Auth.Token;
 
 namespace Kratos.Api.Features.Auth.Login;
 
 public class Service(
+    [FromServices] IRepository repo,
+    [FromServices] ITokenService tokenService,
     [FromServices] UserManager<User> userManager,
     [FromServices] SignInManager<User> signInManager,
-    [FromServices] IRepository repo,
-    [FromServices] ITokenService tokenService
+    [FromServices] IOptions<JwtOptions> jwtOptions
 )
 {
     public async Task<Result<LoginResult>> LoginAsync(Request request, CancellationToken cancellationToken)
@@ -27,7 +29,8 @@ public class Service(
             return Result.UnauthorizedError("Wrong email or password");
         }
 
-        if (!await userManager.IsEmailConfirmedAsync(foundUser))
+        bool emailConfirmed = await userManager.IsEmailConfirmedAsync(foundUser);
+        if (!emailConfirmed)
         {
             return Result.UnauthorizedError("Email is not verified");
         }
@@ -39,28 +42,38 @@ public class Service(
         }
 
         IList<string> userRoles = await userManager.GetRolesAsync(foundUser);
-        IList<DotNetClaim> permissions = await userManager.GetClaimsAsync(foundUser);
+        IList<Claim> permissions = await userManager.GetClaimsAsync(foundUser);
 
         string accessToken = tokenService.GenerateAccessToken(foundUser, [.. userRoles], [.. permissions]);
         string refreshToken = tokenService.GenerateRefreshToken();
-        string sessionId = tokenService.GenerateSessionId();
+        
+        DateTime loggedInAt = DateTime.UtcNow;
+        DateTime refreshTokenExpiry = loggedInAt.AddDays(jwtOptions.Value.RefreshTokenExpiryInDays);
 
-        UserToken? userToken = request.SessionId is not null ? await repo.GetUserTokenAsync(foundUser.Id, request.SessionId, cancellationToken) : null;
-        userToken ??= new()
+        UserSession? userSession = request.SessionId is not null ? await repo.GetUserSessionAsync(foundUser.Id, request.SessionId, cancellationToken) : null;
+        if (userSession is null)
         {
-            UserId = foundUser.Id,
-            SessionId = sessionId,
-            LoginProvider = LoginProvider.Self.Name
-        };
+            string sessionId = tokenService.GenerateSessionId();
+            userSession = new()
+            {
+                UserId = foundUser.Id,
+                SessionId = sessionId,
+                LoggedInWith = Enums.LoggedInWith.Email,
+                LoggedInAt = loggedInAt,
+            };
+        }
 
-        userToken.Value = refreshToken;
-        await repo.AddOrUpdateUserTokenAsync(userToken, cancellationToken);
+        userSession.LoggedInAt = loggedInAt;
+        userSession.RefreshToken = refreshToken;
+        userSession.RefreshTokenExpiresAt = refreshTokenExpiry;
+
+        await repo.AddOrUpdateUserSessionAsync(userSession, cancellationToken);
 
         LoginResult response = new()
         {
             AccessToken = accessToken,
             RefreshToken = refreshToken,
-            SessionId = sessionId,
+            SessionId = userSession.SessionId,
         };
 
         return Result.Success(response);

@@ -2,6 +2,8 @@ namespace Kratos.Api.Common.Options;
 
 public class EmailOptions
 {
+    public const string SectionName = "Email";
+ 
     public string Username { get; init; } = null!;
     public string Password { get; init; } = null!;
     public string SmtpHost { get; init; } = null!;

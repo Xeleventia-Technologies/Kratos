@@ -56,7 +56,7 @@ public static class DatabaseInitializer
         // TODO: Make this data driven
         Dictionary<string, string> defaultAdmins = new()
         {
-            ["admin"] = "Admin@1234",
+            ["admin@gmail.com"] = "Admin@1234",
         };
 
         foreach (KeyValuePair<string, string> defaultAdmin in defaultAdmins)
@@ -80,7 +80,7 @@ public static class DatabaseInitializer
         // TODO: Make this data driven
         Dictionary<string, string> defaultUsers = new()
         {
-            ["user1"] = "User1@1234",
+            ["user1@gmail.com"] = "User1@1234",
         };
 
         foreach (KeyValuePair<string, string> defaultUser in defaultUsers)

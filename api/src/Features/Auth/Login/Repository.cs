@@ -2,32 +2,31 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 using Kratos.Api.Database;
+using Kratos.Api.Database.Models;
 using Kratos.Api.Database.Models.Identity;
-
-using static Kratos.Api.Common.Constants.Auth;
 
 namespace Kratos.Api.Features.Auth.Login;
 
 public interface IRepository
 {
-    Task<UserToken?> GetUserTokenAsync(long userId, string sessionId, CancellationToken cancellationToken);
-    Task AddOrUpdateUserTokenAsync(UserToken userToken, CancellationToken cancellationToken);
+    Task<UserSession?> GetUserSessionAsync(long userId, string sessionId, CancellationToken cancellationToken);
+    Task AddOrUpdateUserSessionAsync(UserSession userSession, CancellationToken cancellationToken);
 }
 
 public class Repository([FromServices] DatabaseContext database) : IRepository
 {
-    public async Task<UserToken?> GetUserTokenAsync(long userId, string sessionId, CancellationToken cancellationToken)
+    public async Task<UserSession?> GetUserSessionAsync(long userId, string sessionId, CancellationToken cancellationToken)
     {
-        return await database.UserTokens.FirstOrDefaultAsync(x =>
+        return await database.UserSessions.FirstOrDefaultAsync(x =>
             x.UserId == userId &&
             x.SessionId == sessionId &&
-            x.LoginProvider == LoginProvider.Self.Name
+            x.LoggedInWith == Enums.LoggedInWith.Email
         , cancellationToken);
     }
 
-    public async Task AddOrUpdateUserTokenAsync(UserToken userToken, CancellationToken cancellationToken)
+    public async Task AddOrUpdateUserSessionAsync(UserSession userSession, CancellationToken cancellationToken)
     {
-        database.UserTokens.Update(userToken);
+        database.UserSessions.Update(userSession);
         await database.SaveChangesAsync(cancellationToken);
     }
 }

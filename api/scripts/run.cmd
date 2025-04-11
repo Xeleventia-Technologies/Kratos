@@ -1,1 +1,2 @@
-dotnet run --project api\src --launch-profile https
+@ECHO off
+@dotnet run --project api\src --launch-profile https

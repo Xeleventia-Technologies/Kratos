@@ -7,6 +7,8 @@ using Kratos.Api.Common;
 using Kratos.Api.Database;
 using Kratos.Api.Database.Models.Identity;
 using Kratos.Api.Common.Services;
+using Kratos.Api.Common.Options;
+using Kratos.Api.Common.Repositories;
 
 namespace Kratos.Api.Startup;
 
@@ -36,9 +38,22 @@ public static class Assembly
         return app;
     }
 
+    public static IServiceCollection ConfigureOptions(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.Configure<EmailOptions>(configuration.GetRequiredSection(EmailOptions.SectionName));
+        services.Configure<JwtOptions>(configuration.GetRequiredSection(JwtOptions.SectionName));
+        services.Configure<OptOptions>(configuration.GetRequiredSection(OptOptions.SectionName));
+
+        return services;
+    }
+
     public static IServiceCollection AddCommonServices(this IServiceCollection services)
     {
         services.AddScoped<IEmailService, EmailService>();
+        
+        services.AddScoped<IOtpRepository, OtpRepository>();
+        services.AddScoped<IOtpService, OtpService>();
+
         services.AddScoped<IImageUploadService, ImageUploadService>();
         
         return services;

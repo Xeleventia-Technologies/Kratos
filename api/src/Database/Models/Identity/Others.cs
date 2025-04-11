@@ -1,12 +1,9 @@
-﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity;
 
 namespace Kratos.Api.Database.Models.Identity;
 
-public class UserRole : IdentityUserRole<long> { }
-public class RoleClaim : IdentityRoleClaim<long> { }
-public class UserClaim : IdentityUserClaim<long> { }
-public class UserLogin : IdentityUserLogin<long> { }
-public class UserToken : IdentityUserToken<long>
-{
-    public string SessionId { get; set; } = null!;
-}
+public class UserRole : IdentityUserRole<long>;
+public class RoleClaim : IdentityRoleClaim<long>;
+public class UserClaim : IdentityUserClaim<long>;
+public class UserLogin : IdentityUserLogin<long>;
+public class UserToken : IdentityUserToken<long>;
