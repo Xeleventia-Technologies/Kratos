@@ -5,7 +5,6 @@ using Kratos.Api.Common.Types;
 using Kratos.Api.Common.Extensions;
 using Kratos.Api.Database.Configurations.Identity;
 using Kratos.Api.Database.Models.Identity;
-using static Kratos.Api.Common.Constants.Auth;
 
 namespace Kratos.Api.Features.Auth.SignUp;
 
@@ -51,7 +50,7 @@ public class Service(
         }
 
         newUser.EmailConfirmed = true;
-        IdentityResult addInRoleResult = await userManager.AddToRoleAsync(newUser, Roles.User);
+        IdentityResult addInRoleResult = await userManager.AddToRoleAsync(newUser, Common.Constants.Role.User.Name);
 
         if (!addInRoleResult.Succeeded)
         {

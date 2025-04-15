@@ -1,17 +1,16 @@
 using System.Text;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using BuiltInClaimTypes = System.Security.Claims.ClaimTypes;
 using BuiltInClaim = System.Security.Claims.Claim;
+using BuiltInClaimTypes = System.Security.Claims.ClaimTypes;
 
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
 using Kratos.Api.Common.Options;
 using Kratos.Api.Database.Models.Identity;
-using CustomClaimTypes = Kratos.Api.Common.Constants.Auth.Claim;
-
-using static Kratos.Api.Common.Constants.Auth;
+using Kratos.Api.Common.Constants;
+using CustomClaimTypes = Kratos.Api.Common.Constants.Claim;
 
 namespace Kratos.Api.Common.Services;
 
@@ -33,13 +32,13 @@ public class TokenService(IOptions<JwtOptions> jwtOptions) : ITokenService
 
         ClaimsIdentity claims = new();
         claims.AddClaims([
-            // new(CustomClaimTypes.UserId.Name, user.Id.ToString()),
-            // new(BuiltInClaimTypes.Email, user.Email!.ToString()),
-            // new(CustomClaimTypes.TokenType.Name, TokenType.AccessToken.Name),
-            new("TestKey", "Testvalue"),
+            new(BuiltInClaimTypes.Email, user.Email!.ToString()),
+            new(CustomClaimTypes.UserId.Name, user.Id.ToString()),
+            new(CustomClaimTypes.TokenType.Name, TokenType.AccessToken.Name),
+            new("TestKey", "TestValue"),
         ]);
-        // claims.AddClaims(roles.Select(role => new BuiltInClaim(BuiltInClaimTypes.Role, role)));
-        // claims.AddClaims(permissions);
+        claims.AddClaims(roles.Select(role => new BuiltInClaim(BuiltInClaimTypes.Role, role)));
+        claims.AddClaims(permissions);
 
         SymmetricSecurityKey securityKey = new(Encoding.UTF8.GetBytes(jwtOptions.SecurityKey));
         SigningCredentials credentials = new(securityKey, SecurityAlgorithms.HmacSha256Signature);
@@ -49,7 +48,7 @@ public class TokenService(IOptions<JwtOptions> jwtOptions) : ITokenService
             Expires = expiresAt,
             Issuer = jwtOptions.Issuer,
             IssuedAt = issuedAt,
-            Subject = claims
+            Subject = claims,
         };
 
         JwtSecurityTokenHandler tokenHandler = new();

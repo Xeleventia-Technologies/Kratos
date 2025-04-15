@@ -1,6 +1,7 @@
 using FluentValidation;
 
 using Kratos.Api.Common;
+using Kratos.Api.Common.Constants;
 
 namespace Kratos.Api.Features.Auth;
 
@@ -20,7 +21,8 @@ public class Registry : IRegistry
         app.MapPost(LoginWebUrl, Login.Handler.HandleWebAsync);
         
         app.MapPost(RefreshTokensUrl, RefreshTokens.Handler.HandleAsync);
-        app.MapPost(RefreshTokensWebUrl, RefreshTokens.Handler.HandleWebAsync);
+        app.MapPost(RefreshTokensWebUrl, RefreshTokens.Handler.HandleWebAsync)
+            .RequireAuthorization(Policy.AllowExpiredJwt.Name);
     }
 
     public void AddServices(IServiceCollection services)

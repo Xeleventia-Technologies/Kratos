@@ -7,7 +7,7 @@ using FluentValidation.Results;
 using Kratos.Api.Common.Extensions;
 using Kratos.Api.Common.Types;
 using Kratos.Api.Common.Options;
-using static Kratos.Api.Common.Constants.Auth;
+using Kratos.Api.Common.Constants;
 
 namespace Kratos.Api.Features.Auth.Login;
 
@@ -62,15 +62,6 @@ public static class Handler
             Expires = DateTimeOffset.UtcNow.AddDays(jwtOptions.Value.RefreshTokenExpiryInDays)
         });
 
-        httpResponse.Cookies.Append(TokenType.AccessToken.Name, generatedTokens.AccessToken, new CookieOptions()
-        {
-            Path = "/",
-            Secure = true,
-            HttpOnly = true,
-            SameSite = SameSiteMode.None,
-            Expires = DateTimeOffset.UtcNow.AddMinutes(jwtOptions.Value.AccessTokenExpiryInMinutes)
-        });
-
         httpResponse.Cookies.Append(TokenType.RefreshToken.Name, generatedTokens.RefreshToken, new CookieOptions()
         {
             Path = Registry.RefreshTokensWebUrl,
@@ -80,6 +71,6 @@ public static class Handler
             Expires = DateTimeOffset.UtcNow.AddDays(jwtOptions.Value.RefreshTokenExpiryInDays)
         });
 
-        return Results.Ok();
+        return Results.Ok(new AccessTokenResponse(generatedTokens.AccessToken));
     }
 }

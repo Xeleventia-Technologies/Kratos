@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Identity;
 
 using Kratos.Api.Database;
 using Kratos.Api.Database.Models.Identity;
-using Kratos.Api.Common.Constants;
 
 namespace Kratos.Api.Startup;
 
@@ -30,8 +29,8 @@ public static class DatabaseInitializer
         }
 
         Role[] roles = [
-            new() { Name = Auth.Roles.Admin },
-            new() { Name = Auth.Roles.User },
+            new() { Name = Common.Constants.Role.Admin.Name },
+            new() { Name = Common.Constants.Role.User.Name },
         ];
 
         foreach (Role role in roles)
@@ -71,12 +70,12 @@ public static class DatabaseInitializer
 
             string password = defaultAdmin.Value;
             await userManager.CreateAsync(user, password);
-            await userManager.AddToRoleAsync(user, Auth.Roles.Admin);
+            await userManager.AddToRoleAsync(user, Common.Constants.Role.Admin.Name);
 
             await database.UserClaims.AddAsync(new()
             {
                 ClaimType = "Default",
-                ClaimValue = Auth.Permissions.DefautlAdmin,
+                ClaimValue = Common.Constants.Permission.DefautlAdmin.Name,
                 UserId = user.Id
             });
             await database.SaveChangesAsync();
@@ -103,12 +102,12 @@ public static class DatabaseInitializer
 
             string password = defaultUser.Value;
             await userManager.CreateAsync(user, password);
-            await userManager.AddToRoleAsync(user, Auth.Roles.User);
+            await userManager.AddToRoleAsync(user, Common.Constants.Role.User.Name);
 
             await database.UserClaims.AddAsync(new()
             {
                 ClaimType = "Default",
-                ClaimValue = Auth.Permissions.DefaultUser,
+                ClaimValue = Common.Constants.Permission.DefaultUser.Name,
                 UserId = user.Id
             });
             await database.SaveChangesAsync();

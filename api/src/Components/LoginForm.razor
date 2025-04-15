@@ -17,6 +17,8 @@
     <button type="button" onclick="refreshTokens()">Refresh</button>
   </form>
   <script>
+
+    let accessToken = "";
     async function login()
     {
       const body = {
@@ -34,7 +36,8 @@
           }
         });
 
-        console.log(response.status);
+        let json = await response.json();
+        accessToken = json.accessToken;
       }
       catch (ex)
       {
@@ -44,10 +47,13 @@
 
     async function refreshTokens()
     {
-       try
+      try
       {
         let response = await fetch("/refresh-tokens/web", {
           method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${accessToken}`
+          }
         });
 
         console.log(response.status);

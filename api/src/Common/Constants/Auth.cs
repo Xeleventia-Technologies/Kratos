@@ -1,45 +1,42 @@
 namespace Kratos.Api.Common.Constants;
 
-public static class Auth
+public  readonly record struct TokenType(string Name)
 {
-    public readonly record struct TokenType(string Name)
-    {
-        public static readonly TokenType AccessToken = new("AccessToken");
-        public static readonly TokenType RefreshToken = new("RefreshToken");
-        public static readonly TokenType SessionId = new("SessionId");
-    }
+    public static readonly TokenType AccessToken = new("AccessToken");
+    public static readonly TokenType RefreshToken = new("RefreshToken");
+    public static readonly TokenType SessionId = new("SessionId");
+}
 
-    public static class Schemes
-    {
-        public static readonly string ValidJwt = "ValidJwtScheme";
-        public static readonly string ExpiredJwt = "ExpiredJwtScheme";
-    }
+public readonly record struct Scheme(string Name)
+{
+    public static readonly Scheme ValidJwt = new("ValidJwtScheme");
+    public static readonly Scheme ExpiredJwt = new("ExpiredJwtScheme");
+}
 
-    public static class Roles
-    {
-        public static readonly string Admin = "Admin";
-        public static readonly string User = "User";
-    }
+public readonly record struct Role(string Name)
+{
+    public static readonly Role Admin = new("Admin");
+    public static readonly Role User = new("User");
+}
 
-    public static class Permissions
-    {
-        public static readonly string DefaultUser = "DefaultUser";
-        public static readonly string DefautlAdmin = "DefaultAdmin";
-    }
+public readonly record struct Permission(string Name)
+{
+    public static readonly Permission DefaultUser = new("DefaultUser");
+    public static readonly Permission DefautlAdmin = new("DefaultAdmin");
+}
 
-    public static class Policies
-    {
-        public static readonly string RequireValidJwt = "RequireValidJwt";
-        public static readonly string AllowExpiredJwt = "AllowExpiredJwt";
+public readonly record struct Policy(string Name)
+{
+    public static readonly Policy RequireValidJwt = new("RequireValidJwt");
+    public static readonly Policy AllowExpiredJwt = new("AllowExpiredJwt");
+    
+    public static readonly Policy RequireAdmin = new("RequireAdmin");
+    public static readonly Policy RequireUser = new("User");
+}
 
-        public static readonly string RequireAdmin = "RequireAdmin";
-        public static readonly string RequireUser = "User";
-    }
-
-    public readonly record struct Claim(string Name)
-    {
-        public static readonly Claim UserId = new("UserId");
-        public static readonly Claim TokenType = new("TokenType");
-        public static readonly Claim Permission = new("Permission");
-    }
+public readonly record struct Claim(string Name)
+{
+    public static readonly Claim UserId = new("UserId");
+    public static readonly Claim TokenType = new("TokenType");
+    public static readonly Claim Permission = new("Permission");
 }

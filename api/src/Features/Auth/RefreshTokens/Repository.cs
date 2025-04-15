@@ -16,7 +16,10 @@ public class Repository([FromServices] DatabaseContext database) : IRepository
 {
     public async Task<UserSession?> GetSessionForUserAsync(long userId, string sessionId, CancellationToken cancellationToken)
     {
-        UserSession? userSession = await database.UserSessions.FirstOrDefaultAsync(x => x.UserId == userId && x.SessionId == sessionId, cancellationToken);
+        UserSession? userSession = await database.UserSessions
+            .Include(us => us.User)
+            .FirstOrDefaultAsync(x => x.UserId == userId && x.SessionId == sessionId, cancellationToken);
+
         return userSession;
     }
 

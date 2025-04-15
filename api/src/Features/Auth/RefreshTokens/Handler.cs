@@ -9,13 +9,14 @@ using FluentValidation.Results;
 using Kratos.Api.Common.Extensions;
 using Kratos.Api.Common.Types;
 using Kratos.Api.Common.Options;
-using static Kratos.Api.Common.Constants.Auth;
+using Kratos.Api.Common.Constants;
 
 namespace Kratos.Api.Features.Auth.RefreshTokens;
 
 public class Handler
 {
     public static async Task<IResult> HandleAsync(
+        HttpRequest httpRequest,
         ClaimsPrincipal user,
         [FromBody] Request request,
         [FromServices] IValidator<Request> requestValidator,

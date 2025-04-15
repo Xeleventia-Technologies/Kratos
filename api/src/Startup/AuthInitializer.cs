@@ -21,28 +21,28 @@ public static class AuthInitializer
     {
         var authBuilder = services.AddAuthentication(x =>
         {
-            x.DefaultAuthenticateScheme = Auth.Schemes.ValidJwt;
-            x.DefaultChallengeScheme = Auth.Schemes.ValidJwt;
-            x.DefaultForbidScheme = Auth.Schemes.ValidJwt;
+            x.DefaultAuthenticateScheme = Scheme.ValidJwt.Name;
+            x.DefaultChallengeScheme = Scheme.ValidJwt.Name;
+            x.DefaultForbidScheme = Scheme.ValidJwt.Name;
         });
 
-        authBuilder.AddJwtBearer(Auth.Schemes.ValidJwt, options => ConfigureJwtBearer(options, jwtOptions, validateLifetime: true));
-        authBuilder.AddJwtBearer(Auth.Schemes.ExpiredJwt, options => ConfigureJwtBearer(options, jwtOptions, validateLifetime: false));
+        authBuilder.AddJwtBearer(Scheme.ValidJwt.Name, options => ConfigureJwtBearer(options, jwtOptions, validateLifetime: true));
+        authBuilder.AddJwtBearer(Scheme.ExpiredJwt.Name, options => ConfigureJwtBearer(options, jwtOptions, validateLifetime: false));
     }
 
     private static void AddJwtAuthorization(this IServiceCollection services)
     {
         services.AddAuthorization(options =>
         {
-            options.BuildAndAddPolicy(schemeName: Auth.Schemes.ValidJwt, policyName: Auth.Policies.RequireValidJwt);
-            options.BuildAndAddPolicy(schemeName: Auth.Schemes.ValidJwt, policyName: Auth.Policies.RequireValidJwt, role: Auth.Roles.Admin);
-            options.BuildAndAddPolicy(schemeName: Auth.Schemes.ValidJwt, policyName: Auth.Policies.RequireValidJwt, role: Auth.Roles.User);
+            options.BuildAndAddPolicy(schemeName: Scheme.ValidJwt.Name, policyName: Policy.RequireValidJwt.Name);
+            options.BuildAndAddPolicy(schemeName: Scheme.ValidJwt.Name, policyName: Policy.RequireValidJwt.Name, role: Role.Admin.Name);
+            options.BuildAndAddPolicy(schemeName: Scheme.ValidJwt.Name, policyName: Policy.RequireValidJwt.Name, role: Role.User.Name);
             
-            options.BuildAndAddPolicy(schemeName: Auth.Schemes.ExpiredJwt, policyName: Auth.Policies.AllowExpiredJwt);
-            options.BuildAndAddPolicy(schemeName: Auth.Schemes.ExpiredJwt, policyName: Auth.Policies.AllowExpiredJwt, role: Auth.Roles.Admin);
-            options.BuildAndAddPolicy(schemeName: Auth.Schemes.ExpiredJwt, policyName: Auth.Policies.AllowExpiredJwt, role: Auth.Roles.User);
+            options.BuildAndAddPolicy(schemeName: Scheme.ExpiredJwt.Name, policyName: Policy.AllowExpiredJwt.Name);
+            options.BuildAndAddPolicy(schemeName: Scheme.ExpiredJwt.Name, policyName: Policy.AllowExpiredJwt.Name, role: Role.Admin.Name);
+            options.BuildAndAddPolicy(schemeName: Scheme.ExpiredJwt.Name, policyName: Policy.AllowExpiredJwt.Name, role: Role.User.Name);
 
-            options.DefaultPolicy = options.GetPolicy(Auth.Policies.RequireValidJwt)!;
+            options.DefaultPolicy = options.GetPolicy(Policy.RequireValidJwt.Name)!;
         });
     }
 

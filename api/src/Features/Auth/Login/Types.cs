@@ -6,3 +6,5 @@ public class GeneratedTokens
     public required string RefreshToken { get; set; } = null!;
     public required string SessionId { get; set; } = null!;
 }
+
+public record AccessTokenResponse(string AccessToken);
