@@ -7,9 +7,9 @@ using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
 
 using Kratos.Api.Common.Types;
 using Kratos.Api.Common.Options;
+using Kratos.Api.Common.Services;
 using Kratos.Api.Database.Models;
 using Kratos.Api.Database.Models.Identity;
-using Kratos.Api.Features.Auth.Token;
 
 namespace Kratos.Api.Features.Auth.Login;
 
@@ -21,7 +21,7 @@ public class Service(
     [FromServices] IOptions<JwtOptions> jwtOptions
 )
 {
-    public async Task<Result<LoginResult>> LoginAsync(Request request, CancellationToken cancellationToken)
+    public async Task<Result<GeneratedTokens>> LoginAsync(Request request, CancellationToken cancellationToken)
     {
         User? foundUser = await userManager.FindByEmailAsync(request.Email);
         if (foundUser is null || await userManager.IsLockedOutAsync(foundUser))
@@ -35,8 +35,8 @@ public class Service(
             return Result.UnauthorizedError("Email is not verified");
         }
 
-        SignInResult result = await signInManager.PasswordSignInAsync(request.Email, request.Password, isPersistent: false, lockoutOnFailure: false);
-        if (!result.Succeeded)
+        SignInResult signInResult = await signInManager.PasswordSignInAsync(request.Email, request.Password, isPersistent: false, lockoutOnFailure: false);
+        if (!signInResult.Succeeded)
         {
             return Result.UnauthorizedError("Wrong email or password");
         }
@@ -69,7 +69,7 @@ public class Service(
 
         await repo.AddOrUpdateUserSessionAsync(userSession, cancellationToken);
 
-        LoginResult response = new()
+        GeneratedTokens response = new()
         {
             AccessToken = accessToken,
             RefreshToken = refreshToken,

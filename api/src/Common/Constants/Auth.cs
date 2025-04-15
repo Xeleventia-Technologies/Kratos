@@ -6,6 +6,7 @@ public static class Auth
     {
         public static readonly TokenType AccessToken = new("AccessToken");
         public static readonly TokenType RefreshToken = new("RefreshToken");
+        public static readonly TokenType SessionId = new("SessionId");
     }
 
     public static class Schemes
@@ -18,6 +19,12 @@ public static class Auth
     {
         public static readonly string Admin = "Admin";
         public static readonly string User = "User";
+    }
+
+    public static class Permissions
+    {
+        public static readonly string DefaultUser = "DefaultUser";
+        public static readonly string DefautlAdmin = "DefaultAdmin";
     }
 
     public static class Policies

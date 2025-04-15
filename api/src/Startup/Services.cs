@@ -3,9 +3,9 @@ using Microsoft.AspNetCore.Identity;
 
 using Serilog;
 
-using Kratos.Api.Common;
 using Kratos.Api.Database;
 using Kratos.Api.Database.Models.Identity;
+using Kratos.Api.Common;
 using Kratos.Api.Common.Services;
 using Kratos.Api.Common.Options;
 using Kratos.Api.Common.Repositories;
@@ -53,6 +53,8 @@ public static class Assembly
         
         services.AddScoped<IOtpRepository, OtpRepository>();
         services.AddScoped<IOtpService, OtpService>();
+
+        services.AddScoped<ITokenService, TokenService>();
 
         services.AddScoped<IImageUploadService, ImageUploadService>();
         

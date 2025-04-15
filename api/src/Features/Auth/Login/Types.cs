@@ -1,6 +1,6 @@
 namespace Kratos.Api.Features.Auth.Login;
 
-public class LoginResult
+public class GeneratedTokens
 {
     public required string AccessToken { get; set; } = null!;
     public required string RefreshToken { get; set; } = null!;

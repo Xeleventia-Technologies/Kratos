@@ -1,0 +1,63 @@
+@namespace Kratos.Api.Components
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <form onsubmit="login(); return false;">
+    <input type="email" name="email" id="email" placeholder="Enter meail"><br><br>
+    <input type="password" name="password" id="password" placeholder="Enter password"><br><br>
+    <button type="submit">Login</button>
+    <button type="button" onclick="refreshTokens()">Refresh</button>
+  </form>
+  <script>
+    async function login()
+    {
+      const body = {
+        email: document.querySelector('#email').value,
+        password: document.querySelector('#password').value,
+      };
+
+      try
+      {
+        let response = await fetch("/login/web", {
+          body: JSON.stringify(body),
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+
+        console.log(response.status);
+      }
+      catch (ex)
+      {
+        console.error(ex);
+      }
+    }
+
+    async function refreshTokens()
+    {
+       try
+      {
+        let response = await fetch("/refresh-tokens/web", {
+          method: 'POST',
+        });
+
+        console.log(response.status);
+      }
+      catch (ex)
+      {
+        console.error(ex);
+      }
+    }
+  </script>
+</body>
+
+</html>

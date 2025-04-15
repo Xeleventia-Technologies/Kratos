@@ -30,8 +30,8 @@ public static class DatabaseInitializer
         }
 
         Role[] roles = [
-            new() { Name = "Admin" },
-            new() { Name = "User" },
+            new() { Name = Auth.Roles.Admin },
+            new() { Name = Auth.Roles.User },
         ];
 
         foreach (Role role in roles)
@@ -47,11 +47,11 @@ public static class DatabaseInitializer
             return;
         }
 
-        await CreateDefaultAdminUsers(userManager);
-        await CreateDefaultNormalUsers(userManager);
+        await CreateDefaultAdminUsers(database, userManager);
+        await CreateDefaultNormalUsers(database, userManager);
     }
 
-    private static async Task CreateDefaultAdminUsers(UserManager<User> userManager)
+    private static async Task CreateDefaultAdminUsers(DatabaseContext database, UserManager<User> userManager)
     {
         // TODO: Make this data driven
         Dictionary<string, string> defaultAdmins = new()
@@ -72,10 +72,18 @@ public static class DatabaseInitializer
             string password = defaultAdmin.Value;
             await userManager.CreateAsync(user, password);
             await userManager.AddToRoleAsync(user, Auth.Roles.Admin);
+
+            await database.UserClaims.AddAsync(new()
+            {
+                ClaimType = "Default",
+                ClaimValue = Auth.Permissions.DefautlAdmin,
+                UserId = user.Id
+            });
+            await database.SaveChangesAsync();
         }
     }
 
-    private static async Task CreateDefaultNormalUsers(UserManager<User> userManager)
+    private static async Task CreateDefaultNormalUsers(DatabaseContext database, UserManager<User> userManager)
     {
         // TODO: Make this data driven
         Dictionary<string, string> defaultUsers = new()
@@ -95,7 +103,15 @@ public static class DatabaseInitializer
 
             string password = defaultUser.Value;
             await userManager.CreateAsync(user, password);
-            await userManager.AddToRoleAsync(user, Auth.Roles.Admin);
+            await userManager.AddToRoleAsync(user, Auth.Roles.User);
+
+            await database.UserClaims.AddAsync(new()
+            {
+                ClaimType = "Default",
+                ClaimValue = Auth.Permissions.DefaultUser,
+                UserId = user.Id
+            });
+            await database.SaveChangesAsync();
         }
     }
 }

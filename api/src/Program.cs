@@ -20,6 +20,7 @@ builder.Services.AddFirebase();
 builder.Services.AddJwtAuth(builder.Configuration.GetRequiredSection(JwtOptions.SectionName).Get<JwtOptions>()!);
 builder.Services.AddDatabase(builder.Configuration.GetConnectionString("Default")!);
 builder.Services.AddCors();
+builder.Services.AddRazorComponents();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options => { options.CustomSchemaIds(type => type.ToString()); });
