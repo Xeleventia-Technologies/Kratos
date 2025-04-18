@@ -3,12 +3,12 @@ using Microsoft.AspNetCore.Identity;
 
 using Serilog;
 
-using Kratos.Api.Database;
-using Kratos.Api.Database.Models.Identity;
 using Kratos.Api.Common;
 using Kratos.Api.Common.Services;
 using Kratos.Api.Common.Options;
 using Kratos.Api.Common.Repositories;
+using Kratos.Api.Database;
+using Kratos.Api.Database.Models.Identity;
 
 namespace Kratos.Api.Startup;
 
@@ -42,6 +42,7 @@ public static class Assembly
     {
         services.Configure<EmailOptions>(configuration.GetRequiredSection(EmailOptions.SectionName));
         services.Configure<JwtOptions>(configuration.GetRequiredSection(JwtOptions.SectionName));
+        services.Configure<OAuthOptions>(configuration.GetRequiredSection(OAuthOptions.SectionName));
         services.Configure<OptOptions>(configuration.GetRequiredSection(OptOptions.SectionName));
 
         return services;
@@ -50,11 +51,11 @@ public static class Assembly
     public static IServiceCollection AddCommonServices(this IServiceCollection services)
     {
         services.AddScoped<IEmailService, EmailService>();
-        
-        services.AddScoped<IOtpRepository, OtpRepository>();
         services.AddScoped<IOtpService, OtpService>();
-
         services.AddScoped<ITokenService, TokenService>();
+
+        services.AddScoped<IOtpRepository, OtpRepository>();
+        services.AddScoped<IUserSessionRepository, UserSessionRepository>();
 
         services.AddScoped<IImageUploadService, ImageUploadService>();
         

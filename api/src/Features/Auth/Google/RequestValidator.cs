@@ -1,15 +1,12 @@
 using FluentValidation;
 
-namespace Kratos.Api.Features.Auth.RefreshTokens;
+namespace Kratos.Api.Features.Auth.Google;
 
 public class RequestValidator : AbstractValidator<Request>
 {
     public RequestValidator()
     {
-        RuleFor(x => x.RefreshToken)
-            .NotEmpty();
-
-        RuleFor(x => x.SessionId)
+        RuleFor(x => x.GoogleToken)
             .NotEmpty();
     }
 }

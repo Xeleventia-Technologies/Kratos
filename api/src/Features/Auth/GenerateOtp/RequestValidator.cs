@@ -1,5 +1,6 @@
 using FluentValidation;
 
+using Kratos.Api.Common.Utils;
 using Kratos.Api.Database.Models;
 
 namespace Kratos.Api.Features.Auth.GenerateOtp;
@@ -15,6 +16,6 @@ public class RequestValidator : AbstractValidator<Request>
         RuleFor(x => x.Purpose)
             .NotEmpty()
             .IsEnumName(typeof(Enums.OtpPurpose), caseSensitive: false)
-                .WithMessage($"Allowed values are: {Enums.CommaSeparated<Enums.OtpPurpose>()}");
+                .WithMessage($"Allowed values are: {EnumUtils.CommaSeparated<Enums.OtpPurpose>()}");
     }
 }

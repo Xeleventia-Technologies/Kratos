@@ -10,13 +10,13 @@ using Kratos.Api.Common.Extensions;
 using Kratos.Api.Common.Types;
 using Kratos.Api.Common.Options;
 using Kratos.Api.Common.Constants;
+using Kratos.Api.Common.Utils;
 
 namespace Kratos.Api.Features.Auth.RefreshTokens;
 
 public class Handler
 {
     public static async Task<IResult> HandleAsync(
-        HttpRequest httpRequest,
         ClaimsPrincipal user,
         [FromBody] Request request,
         [FromServices] IValidator<Request> requestValidator,
@@ -24,13 +24,15 @@ public class Handler
         CancellationToken cancellationToken
     )
     {
+        long userId = user.GetUserId();
+
         ValidationResult validationResult = await requestValidator.ValidateAsync(request, cancellationToken);
         if (!validationResult.IsValid)
         {
             return validationResult.AsHttpError();
         }
 
-        Result<GeneratedTokens> result = await service.GenerateNewTokensAsync(user.GetUserId(), request.RefreshToken, request.SessionId, cancellationToken);
+        Result<GeneratedTokens> result = await service.GenerateNewTokensAsync(userId, request.RefreshToken, request.SessionId, cancellationToken);
         return result.AsHttpResponse();
     }
 
@@ -62,14 +64,7 @@ public class Handler
         }
 
         GeneratedTokens generatedTokens = result.Value!;
-        http.Response.Cookies.Append(TokenType.RefreshToken.Name, generatedTokens.RefreshToken, new CookieOptions()
-        {
-            Path = Registry.RefreshTokensWebUrl,
-            Secure = true,
-            HttpOnly = true,
-            SameSite = SameSiteMode.None,
-            Expires = DateTimeOffset.UtcNow.AddDays(jwtOptions.Value.RefreshTokenExpiryInDays)
-        });
+        http.Response.AppendCookie(TokenType.RefreshToken.Name, generatedTokens.RefreshToken, path: "/", DateTimeOffset.UtcNow.AddDays(jwtOptions.Value.RefreshTokenExpiryInDays));
 
         return Results.Ok();
     }

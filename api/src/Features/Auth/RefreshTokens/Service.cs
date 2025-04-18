@@ -8,19 +8,20 @@ using Kratos.Api.Common.Types;
 using Kratos.Api.Common.Services;
 using Kratos.Api.Common.Options;
 using Kratos.Api.Database.Models.Identity;
+using Kratos.Api.Common.Repositories;
 
 namespace Kratos.Api.Features.Auth.RefreshTokens;
 
 public class Service(
-    [FromServices] IRepository repo,
     [FromServices] ITokenService tokenService,
+    [FromServices] IUserSessionRepository userSessionRepository,
     [FromServices] IOptions<JwtOptions> jwtOptions,
     [FromServices] UserManager<User> userManager
 )
 {
     public async Task<Result<GeneratedTokens>> GenerateNewTokensAsync(long userId, string refreshToken, string sessionId, CancellationToken cancellationToken)
     {
-        UserSession? userSession = await repo.GetSessionForUserAsync(userId, sessionId, cancellationToken);
+        UserSession? userSession = await userSessionRepository.GetUserSessionAsync(userId, sessionId, cancellationToken);
         if (userSession is null || userSession.RefreshToken != refreshToken || userSession.RefreshTokenExpiresAt < DateTime.UtcNow)
         {
             return Result.UnauthorizedError();
@@ -36,7 +37,7 @@ public class Service(
         userSession.RefreshToken = newRefreshToken;
         userSession.RefreshTokenExpiresAt = newRefreshTokenExpiry;
 
-        await repo.UpdateRefreshToken(userSession, cancellationToken);
+        await userSessionRepository.AddOrUpdateUserSessionAsync(userSession, cancellationToken);
         return Result.Success(new GeneratedTokens(newAccessToken, newRefreshToken));
     } 
 }
