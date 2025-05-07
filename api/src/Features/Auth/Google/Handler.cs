@@ -4,10 +4,10 @@ using Microsoft.Extensions.Options;
 using FluentValidation;
 using FluentValidation.Results;
 
-using Kratos.Api.Common.Extensions;
-using Kratos.Api.Common.Types;
-using Kratos.Api.Common.Options;
 using Kratos.Api.Common.Constants;
+using Kratos.Api.Common.Extensions;
+using Kratos.Api.Common.Options;
+using Kratos.Api.Common.Types;
 using Kratos.Api.Common.Utils;
 
 namespace Kratos.Api.Features.Auth.Google;
@@ -27,11 +27,11 @@ public class Handler
         ValidationResult validationResult = await requestValidator.ValidateAsync(request, cancellationToken);
         if (!validationResult.IsValid)
         {
-            logger.LogWarning("Google login request validation failed. Reason: {@ErrorMessage}", validationResult.Errors[0].ErrorMessage);
+            logger.LogWarning("Google login request validation failed. Reason: {ErrorMessage}", validationResult.Errors[0].ErrorMessage);
             return validationResult.AsHttpError();
         }
 
-        Result<GeneratedTokens> loginWithGoogleResult = await service.LoginWithGoogleAsync(request, cancellationToken);
+        Result<GeneratedTokens> loginWithGoogleResult = await service.LoginWithGoogleAsync(request.GoogleToken, request.SessionId, cancellationToken);
         if (!loginWithGoogleResult.IsSuccess)
         {
             logger.LogError("[Auth/Google] Google login request failed. Reason: {Message}", loginWithGoogleResult.Error?.Message ?? "No message provided");
@@ -43,15 +43,18 @@ public class Handler
     }
 
     public static async Task<IResult> HandleWebAsync(
+        HttpRequest httpRequest,
         HttpResponse httpResponse,
-        [FromBody] Request request,
-        [FromServices] IValidator<Request> requestValidator,
+        [FromBody] RequestWeb request,
+        [FromServices] IValidator<RequestWeb> requestValidator,
         [FromServices] Service service,
         [FromServices] IOptions<JwtOptions> jwtOptions,
         [FromServices] ILogger<Handler> logger,
         CancellationToken cancellationToken
     )
     {
+        string? sessionId = httpRequest.Cookies[TokenType.SessionId.Name];
+
         ValidationResult validationResult = await requestValidator.ValidateAsync(request, cancellationToken);
         if (!validationResult.IsValid)
         {
@@ -59,7 +62,7 @@ public class Handler
             return validationResult.AsHttpError();
         }
 
-        Result<GeneratedTokens> result = await service.LoginWithGoogleAsync(request, cancellationToken);
+        Result<GeneratedTokens> result = await service.LoginWithGoogleAsync(request.GoogleToken, sessionId, cancellationToken);
         if (!result.IsSuccess)
         {
             logger.LogError("[Auth/Google] Google login request failed. Reason: {Message}", result.Error?.Message ?? "No message provided");

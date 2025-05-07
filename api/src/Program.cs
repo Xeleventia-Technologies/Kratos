@@ -3,6 +3,7 @@ using Serilog;
 using Kratos.Api.Middleware;
 using Kratos.Api.Startup;
 using Kratos.Api.Common.Options;
+using Kratos.Api._Pages;
 
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
@@ -60,6 +61,9 @@ app.UseAuthorization();
 
 app.UseForwardedHeaders();
 app.UseExceptionHandler();
+
+app.UseAntiforgery();
+app.MapRazorComponents<App>();
 
 app.Run();
 await Log.CloseAndFlushAsync();

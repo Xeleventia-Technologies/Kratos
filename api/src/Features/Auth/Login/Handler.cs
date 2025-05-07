@@ -27,26 +27,29 @@ public static class Handler
             return validationResult.AsHttpError();
         }
 
-        Result<GeneratedTokens> loginResult = await service.LoginAsync(request, cancellationToken);
+        Result<GeneratedTokens> loginResult = await service.LoginAsync(request.Email, request.Password, request.SessionId, cancellationToken);
         return loginResult.AsHttpResponse();
     }
 
     public static async Task<IResult> HandleWebAsync(
+        HttpRequest httpRequest,
         HttpResponse httpResponse,
-        [FromBody] Request request,
-        [FromServices] IValidator<Request> requestValidator,
+        [FromBody] RequestWeb request,
+        [FromServices] IValidator<RequestWeb> requestValidator,
         [FromServices] Service service,
         [FromServices] IOptions<JwtOptions> jwtOptions,
         CancellationToken cancellationToken
     )
     {
+        string? sessionId = httpRequest.Cookies[TokenType.SessionId.Name];
+
         ValidationResult validationResult = await requestValidator.ValidateAsync(request, cancellationToken);
         if (!validationResult.IsValid)
         {
             return validationResult.AsHttpError();
         }
 
-        Result<GeneratedTokens> result = await service.LoginAsync(request, cancellationToken);
+        Result<GeneratedTokens> result = await service.LoginAsync(request.Email, request.Password, sessionId, cancellationToken);
         if (!result.IsSuccess)
         {
             return result.Error.AsHttpError();

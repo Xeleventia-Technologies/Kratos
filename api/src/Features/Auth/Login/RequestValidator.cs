@@ -14,3 +14,16 @@ public class RequestValidator : AbstractValidator<Request>
             .NotEmpty();
     }
 }
+
+public class RequestWebValidator : AbstractValidator<RequestWeb>
+{
+    public RequestWebValidator()
+    {
+         RuleFor(x => x.Email)
+            .NotEmpty()
+            .EmailAddress();
+
+        RuleFor(x => x.Password)
+            .NotEmpty();
+    }
+}

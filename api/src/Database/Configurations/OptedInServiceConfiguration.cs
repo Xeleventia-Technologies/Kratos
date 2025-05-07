@@ -9,7 +9,7 @@ public class OptedInServiceEntityConfiguration : IEntityTypeConfiguration<OptedI
 {
     public void Configure(EntityTypeBuilder<OptedInService> builder)
     {
-        builder.ToTable("OptedInServices");
+        builder.ToTable("opted_in_services");
 
         builder.HasKey(x => x.Id);
         builder.Property(x => x.Id).UseIdentityAlwaysColumn();

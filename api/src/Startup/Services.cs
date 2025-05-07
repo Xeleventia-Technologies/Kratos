@@ -51,8 +51,11 @@ public static class Assembly
     public static IServiceCollection AddCommonServices(this IServiceCollection services)
     {
         services.AddScoped<IEmailService, EmailService>();
+        services.AddScoped<IGoogleTokenService, GoogleTokenService>();
         services.AddScoped<IOtpService, OtpService>();
         services.AddScoped<ITokenService, TokenService>();
+
+        services.AddScoped<HtmxService>();
 
         services.AddScoped<IOtpRepository, OtpRepository>();
         services.AddScoped<IUserSessionRepository, UserSessionRepository>();
@@ -70,7 +73,11 @@ public static class Assembly
 
     public static IServiceCollection AddDatabase(this IServiceCollection services, string connectionString)
     {
-        services.AddDbContext<DatabaseContext>(options => options.UseNpgsql(DataSource.OfPostgres(connectionString)));
+        services.AddDbContext<DatabaseContext>(options => 
+        {
+            options.UseNpgsql(DataSource.OfPostgres(connectionString), o => o.MigrationsHistoryTable(DatabaseContext.MigrationsHistoryTableName));
+        });
+
         services.AddIdentity<User, Role>()
             .AddEntityFrameworkStores<DatabaseContext>()
             .AddDefaultTokenProviders();

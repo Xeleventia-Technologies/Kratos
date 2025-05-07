@@ -9,7 +9,7 @@ public class FeedbackEntityConfiguration : IEntityTypeConfiguration<Feedback>
 {
     public void Configure(EntityTypeBuilder<Feedback> builder)
     {
-        builder.ToTable("Feedbacks");
+        builder.ToTable("feedbacks");
 
         builder.HasKey(x => x.Id);
         builder.Property(x => x.Id).UseIdentityAlwaysColumn();

@@ -10,6 +10,8 @@ namespace Kratos.Api.Database;
 
 public class DatabaseContext(DbContextOptions options) : IdentityDbContext<User, Role, long, UserClaim, UserRole, UserLogin, RoleClaim, UserToken>(options)
 {
+    public const string MigrationsHistoryTableName = "_ef_migrations_history";
+
     public DbSet<UserOtp> UserOtps { get; set; }
     public DbSet<UserSession> UserSessions { get; set; }
     public DbSet<AssignedOptedInService> AssignedOptedInServices { get; set; }
@@ -30,6 +32,12 @@ public class DatabaseContext(DbContextOptions options) : IdentityDbContext<User,
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
+
+        builder.Entity<User>().ToTable("users");
+        builder.Entity<Role>().ToTable("roles");
+        builder.Entity<UserClaim>().ToTable("user_claims");
+        builder.Entity<UserRole>().ToTable("user_roles");
+        builder.Entity<RoleClaim>().ToTable("role_claims");
 
         builder.Ignore<UserLogin>();
         builder.Ignore<UserToken>();

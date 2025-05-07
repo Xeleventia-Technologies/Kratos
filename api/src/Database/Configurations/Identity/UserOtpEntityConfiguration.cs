@@ -7,7 +7,7 @@ public class UserOtpEntityConfiguration : IEntityTypeConfiguration<UserOtp>
 {
     public void Configure(EntityTypeBuilder<UserOtp> builder)
     {
-        builder.ToTable("UserOtps");
+        builder.ToTable("user_otps");
 
         builder.HasKey(x => x.Id);
         builder.Property(x => x.Id).UseIdentityAlwaysColumn();

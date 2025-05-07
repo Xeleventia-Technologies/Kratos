@@ -9,7 +9,7 @@ public class UserSessionEntityConfiguration : IEntityTypeConfiguration<UserSessi
 {
     public void Configure(EntityTypeBuilder<UserSession> builder)
     {
-        builder.ToTable("UserSessions");
+        builder.ToTable("user_sessions");
 
         builder.HasKey(x => x.Id);
         builder.Property(x => x.Id).UseIdentityAlwaysColumn();

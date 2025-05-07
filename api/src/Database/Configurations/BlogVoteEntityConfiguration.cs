@@ -1,15 +1,15 @@
-namespace Kratos.Api.Database.Configurations;
-
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 using Kratos.Api.Database.Models;
 
+namespace Kratos.Api.Database.Configurations;
+
 public class BlogVoteEntityConfiguration : IEntityTypeConfiguration<BlogVote>
 {
     public void Configure(EntityTypeBuilder<BlogVote> builder)
     {
-        builder.ToTable("BlogVotes");
+        builder.ToTable("blog_votes");
 
         builder.HasKey(x => x.Id);
         builder.HasIndex(x => new { x.BlogId, x.VotedByUserId }).IsUnique();

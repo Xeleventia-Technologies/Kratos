@@ -14,9 +14,9 @@ public class Service(
     [FromServices] SignInManager<User> signInManager
 )
 {
-    public async Task<Result<GeneratedTokens>> LoginAsync(Request request, CancellationToken cancellationToken)
+    public async Task<Result<GeneratedTokens>> LoginAsync(string email, string password, string? sessionId, CancellationToken cancellationToken)
     {
-        User? foundUser = await userManager.FindByEmailAsync(request.Email);
+        User? foundUser = await userManager.FindByEmailAsync(email);
         if (foundUser is null || await userManager.IsLockedOutAsync(foundUser))
         {
             return Result.UnauthorizedError("Wrong email or password");
@@ -28,13 +28,13 @@ public class Service(
             return Result.UnauthorizedError("Email is not verified");
         }
 
-        SignInResult signInResult = await signInManager.PasswordSignInAsync(request.Email, request.Password, isPersistent: false, lockoutOnFailure: false);
+        SignInResult signInResult = await signInManager.PasswordSignInAsync(email, password, isPersistent: false, lockoutOnFailure: false);
         if (!signInResult.Succeeded)
         {
             return Result.UnauthorizedError("Wrong email or password");
         }
 
-        GeneratedTokens generatedTokens = await tokenService.GenerateAndSaveAuthTokensAsync(foundUser, cancellationToken);
+        GeneratedTokens generatedTokens = await tokenService.GenerateAndSaveAuthTokensAsync(sessionId, foundUser, cancellationToken);
         return Result.Success(generatedTokens);
     }
 }

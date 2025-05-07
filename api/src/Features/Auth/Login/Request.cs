@@ -6,3 +6,9 @@ public class Request
     public string Password { get; set; } = null!;
     public string? SessionId { get; set; }
 }
+
+public class RequestWeb
+{
+    public string Email { get; set; } = null!;
+    public string Password { get; set; } = null!;
+}

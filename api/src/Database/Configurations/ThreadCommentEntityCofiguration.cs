@@ -9,7 +9,7 @@ public class ThreadCommentEntityConfiguration : IEntityTypeConfiguration<ThreadC
 {
     public void Configure(EntityTypeBuilder<ThreadComment> builder)
     {
-        builder.ToTable("ThreadComments");
+        builder.ToTable("thread_comments");
 
         builder.HasKey(x => x.Id);
         builder.Property(x => x.Id).UseIdentityAlwaysColumn();

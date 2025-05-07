@@ -25,7 +25,6 @@ public interface ITokenService
     string GenerateRefreshToken();
     string GenerateSessionId();
 
-    Task<GeneratedTokens> GenerateAndSaveAuthTokensAsync(User user, CancellationToken cancellationToken);
     Task<GeneratedTokens> GenerateAndSaveAuthTokensAsync(string? sessionId, User user, CancellationToken cancellationToken);
 }
 
@@ -75,11 +74,6 @@ public class TokenService(
     public string GenerateSessionId()
     {
         return Guid.NewGuid().ToString();
-    }
-
-    public async Task<GeneratedTokens> GenerateAndSaveAuthTokensAsync(User user, CancellationToken cancellationToken)
-    {
-        return await GenerateAndSaveAuthTokensAsync(null, user, cancellationToken);
     }
 
     public async Task<GeneratedTokens> GenerateAndSaveAuthTokensAsync(string? sessionId, User user, CancellationToken cancellationToken)

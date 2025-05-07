@@ -1,4 +1,4 @@
-@namespace Kratos.Api.Components
+@namespace Kratos.Api._Pages.Auth
 
 <!DOCTYPE html>
 <html lang="en">
@@ -10,7 +10,7 @@
 </head>
 
 <body>
-  <form onsubmit="login(); return false;">
+  <form onsubmit="login(event);">
     <input type="email" name="email" id="email" placeholder="Enter meail"><br><br>
     <input type="password" name="password" id="password" placeholder="Enter password"><br><br>
     <button type="submit">Login</button>
@@ -18,17 +18,25 @@
   </form>
   <script>
     let accessToken = "";
+    let refreshToken = "";
+    let sessionId = "";
 
-    async function login()
+    async function login(event)
     {
-      const body = {
+      event.preventDefault();
+
+      let body = {
         email: document.querySelector('#email').value,
         password: document.querySelector('#password').value,
       };
 
+      if (sessionId !== "") {
+        body.sessionId = sessionId;
+      }
+
       try
       {
-        let response = await fetch("/auth/login/web", {
+        let response = await fetch("/auth/login", {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -37,7 +45,10 @@
         });
 
         let json = await response.json();
+
         accessToken = json.accessToken;
+        refreshToken = json.refreshToken;
+        sessionId = json.sessionId;
       }
       catch (ex)
       {
@@ -49,14 +60,19 @@
     {
       try
       {
-        let response = await fetch("/auth/refresh-tokens/web", {
+        let response = await fetch("/auth/refresh-tokens", {
           method: 'POST',
           headers: {
-            'Authorization': `Bearer ${accessToken}`
-          }
+            'Authorization': `Bearer ${accessToken}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ refreshToken, sessionId })
         });
 
-        console.log(response.status);
+        let json = await response.json();
+
+        accessToken = json.accessToken;
+        refreshToken = json.refreshToken;
       }
       catch (ex)
       {

@@ -1,15 +1,15 @@
-namespace Kratos.Api.Database.Configurations;
-
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 using Kratos.Api.Database.Models;
 
+namespace Kratos.Api.Database.Configurations;
+
 public class ForumThreadEntityConfiguration : IEntityTypeConfiguration<ForumThread>
 {
     public void Configure(EntityTypeBuilder<ForumThread> builder)
     {
-        builder.ToTable("ForumThreads");
+        builder.ToTable("forum_threads");
 
         builder.HasKey(x => x.Id);
         builder.Property(x => x.Id).UseIdentityAlwaysColumn();

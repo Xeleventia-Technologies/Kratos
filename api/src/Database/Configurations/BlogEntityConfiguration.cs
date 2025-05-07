@@ -1,15 +1,15 @@
-namespace Kratos.Api.Database.Configurations;
-
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 using Kratos.Api.Database.Models;
 
+namespace Kratos.Api.Database.Configurations;
+
 public class BlogEntityConfiguration : IEntityTypeConfiguration<Blog>
 {
     public void Configure(EntityTypeBuilder<Blog> builder)
     {
-        builder.ToTable("Blogs");
+        builder.ToTable("blogs");
 
         builder.HasKey(x => x.Id);
         builder.Property(x => x.Id).UseIdentityAlwaysColumn();

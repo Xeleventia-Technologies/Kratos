@@ -1,4 +1,4 @@
-@namespace Kratos.Api.Components
+@namespace Kratos.Api._Pages.Auth
 
 <!DOCTYPE html>
 <html>
@@ -22,14 +22,12 @@
 
   <script>
     let accessToken = "";
-    let refreshToken = "";
-    let sessionId = "";
 
     async function handleCredentialResponse(googleResponse)
     {
       const googleToken = googleResponse.credential;
 
-      let response = await fetch('https://localhost:5000/auth/google', {
+      let response = await fetch('https://localhost:5000/auth/google/web', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -38,27 +36,20 @@
       });
 
       let json = await response.json();
-
       accessToken = json.accessToken;
-      refreshToken = json.refreshToken;
-      sessionId = json.sessionId;
     }
 
     async function refreshTokens()
     {
-      let response = await fetch("/auth/refresh-tokens", {
+      let response = await fetch("/auth/refresh-tokens/web", {
         method: 'POST',
         headers: {
-          'Authorization': `Bearer ${accessToken}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ refreshToken, sessionId })
+          'Authorization': `Bearer ${accessToken}`
+        }
       });
 
       let json = await response.json();
-
-      accessToken = json.accessToken;
-      refreshToken = json.refreshToken;
+      console.log(json);
     }
   </script>
 </body>

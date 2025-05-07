@@ -9,7 +9,7 @@ public class TestimonialEntityConfiguration : IEntityTypeConfiguration<Testimoni
 {
     public void Configure(EntityTypeBuilder<Testimonial> builder)
     {
-        builder.ToTable("Testimonials");
+        builder.ToTable("testimonials");
 
         builder.HasKey(x => x.Id);
         builder.Property(x => x.Id).UseIdentityAlwaysColumn();

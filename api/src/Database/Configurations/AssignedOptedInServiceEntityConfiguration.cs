@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
 using Kratos.Api.Database.Models;
 
 namespace Kratos.Api.Database.Configurations;
@@ -8,7 +9,7 @@ public class AssignedOptedInServiceEntityConfiguration : IEntityTypeConfiguratio
 {
     public void Configure(EntityTypeBuilder<AssignedOptedInService> builder)
     {
-        builder.ToTable("AssignedOptedInServices");
+        builder.ToTable("assigned_opted_in_services");
 
         builder.HasKey(x => x.Id);
         builder.Property(x => x.Id).UseIdentityAlwaysColumn();

@@ -9,7 +9,7 @@ public class ForumThreadVoteEntityConfiguration : IEntityTypeConfiguration<Forum
 {
     public void Configure(EntityTypeBuilder<ForumThreadVote> builder)
     {
-        builder.ToTable("ForumThreadVotes");
+        builder.ToTable("forum_thread_votes");
 
         builder.HasKey(x => x.Id);
         builder.Property(x => x.Id).UseIdentityAlwaysColumn();

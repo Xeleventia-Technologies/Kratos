@@ -38,9 +38,11 @@ public class Registry : IRegistry
         services.AddScoped<GenerateOtp.Service>();
         
         services.AddScoped<IValidator<Login.Request>, Login.RequestValidator>();
+        services.AddScoped<IValidator<Login.RequestWeb>, Login.RequestWebValidator>();
         services.AddScoped<Login.Service>();
 
         services.AddScoped<IValidator<Google.Request>, Google.RequestValidator>();
+        services.AddScoped<IValidator<Google.RequestWeb>, Google.RequestWebValidator>();
         services.AddScoped<Google.Service>();
         
         services.AddScoped<IValidator<SignUp.Request>, SignUp.RequestValidator>();

@@ -9,7 +9,7 @@ public class ProfileEntityConfiguration : IEntityTypeConfiguration<Profile>
 {
     public void Configure(EntityTypeBuilder<Profile> builder)
     {
-        builder.ToTable("Profiles");
+        builder.ToTable("profiles");
 
         builder.HasKey(x => x.Id);
         builder.Property(x => x.Id).UseIdentityAlwaysColumn();

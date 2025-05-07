@@ -9,7 +9,7 @@ public class AssignedOptedInServiceQueryEntityConfiguration : IEntityTypeConfigu
 {
     public void Configure(EntityTypeBuilder<AssignedOptedInServiceQuery> builder)
     {
-        builder.ToTable("AssignedOptedInServiceQueries");
+        builder.ToTable("assigned_opted_in_service_queries");
 
         builder.HasKey(x => x.Id);
         builder.Property(x => x.Id).UseIdentityAlwaysColumn();

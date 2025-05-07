@@ -11,7 +11,11 @@ public static class ResultExtensions
         if (!result.IsSuccess)
             return result.Error.AsHttpError();
 
-        return Results.Ok();
+        return result.SuccessStatus switch
+        {
+            SuccessStatus.Created => Results.Created(),
+            _ => Results.Ok(),
+        };
     }
 
     public static IResult AsHttpResponse<T>(this Result<T> result) where T : class
@@ -19,7 +23,11 @@ public static class ResultExtensions
         if (!result.IsSuccess)
             return result.Error.AsHttpError();
 
-        return Results.Ok(result.Value);
+        return result.SuccessStatus switch
+        {
+            SuccessStatus.Created => Results.Created(uri: string.Empty, value: result.Value),
+            _ => Results.Ok(result.Value),
+        };
     }
 
     public static IResult AsHttpError(this ValidationResult validationResult) => Results.ValidationProblem(validationResult.ToDictionary());
