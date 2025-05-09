@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Http.HttpResults;
 
 using Kratos.Api.Common;
 using Kratos.Api._Pages.Auth;
-using Kratos.Api.Common.Utils;
 
 namespace Kratos.Api._Pages;
 
