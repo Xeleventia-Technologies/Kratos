@@ -1,3 +1,4 @@
+clear &&
 rm -rf ./api/src/Migrations/* &&
 dotnet build api/src &&
 dotnet ef database drop --project api/src --force --no-build &&

@@ -1,1 +1,2 @@
+clear &&
 dotnet run --project api/src --launch-profile https
