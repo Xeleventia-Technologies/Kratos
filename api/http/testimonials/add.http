@@ -1,0 +1,8 @@
+# @import ../variables.http
+
+POST /api/testimonial
+Authorization: Bearer {{userAccessToken}}
+Content-Type: application/json
+{
+    "text": "Good"
+}

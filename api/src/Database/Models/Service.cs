@@ -8,6 +8,12 @@ public class Service
     public string Summary { get; set; } = null!;
     public string Description { get; set; } = null!;
     public string ImageFileName { get; set; } = null!;
+    public string SeoFriendlyName { get; set; } = null!;
+
+    public long? ParentServiceId { get; set; }
+    public virtual Service? ParentService { get; set; }
+
+    public List<Service> ChildServices { get; set; } = null!;
 
     public bool IsDeleted { get; set; }
     public DateTime CreatedAt { get; set; }

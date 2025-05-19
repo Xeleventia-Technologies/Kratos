@@ -22,5 +22,9 @@ public class RequestValidator : AbstractValidator<Request>
             .NotEmpty()
             .Must(image => AllowedMedia.ImageTypes.Contains(image.ContentType))
                 .WithMessage("Allowed image types are: " + AllowedMedia.ImageTypes.CommaSeparated());
+
+        RuleFor(x => x.ParentServiceId)
+            .GreaterThan(0)
+            .When(x => x.ParentServiceId is not null);
     }
 }

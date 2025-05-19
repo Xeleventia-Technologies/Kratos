@@ -1,0 +1,24 @@
+# @import ../variables.http
+
+PUT /api/article/3
+Authorization: Bearer {{userAccessToken}}
+Content-Type: multipart/form-data; boundary=WebKitFormBoundary
+
+--WebKitFormBoundary
+Content-Disposition: form-data; name="title"
+
+Test Title2
+--WebKitFormBoundary
+Content-Disposition: form-data; name="summary"
+
+Test Summary2
+--WebKitFormBoundary
+Content-Disposition: form-data; name="content"
+
+<h1>Test Content2</h1>
+--WebKitFormBoundary
+Content-Disposition: form-data; name="image"; filename="2.png"
+Content-Type: image/png
+
+< /home/max/Pictures/1.png
+--WebKitFormBoundary--

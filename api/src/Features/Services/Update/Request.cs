@@ -6,4 +6,5 @@ public class Request
     public string Summary { get; set; } = null!;
     public string Description { get; set; } = null!;
     public IFormFile? Image { get; set; }
+    public long? ParentServiceId { get; set; }
 }

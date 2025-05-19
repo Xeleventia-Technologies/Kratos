@@ -11,6 +11,7 @@ public class OptedInService
     public Client Client { get; set; } = null!;
 
     public virtual List<AssignedOptedInService> AssignedTasks { get; set; } = null!;
+    public virtual List<OptedInServiceQuery> Queries { get; set; } = null!;
 
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }

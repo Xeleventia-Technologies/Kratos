@@ -1,0 +1,23 @@
+# @import ../variables.http
+
+PUT /api/service/4
+Content-Type: multipart/form-data; boundary=WebKitFormBoundary
+
+--WebKitFormBoundary
+Content-Disposition: form-data; name="name"
+
+Inner Service 6
+--WebKitFormBoundary
+Content-Disposition: form-data; name="summary"
+
+Inner Service Summary 6
+--WebKitFormBoundary
+Content-Disposition: form-data; name="description"
+
+Inner Service Description 6
+--WebKitFormBoundary
+Content-Disposition: form-data; name="image"; filename="2.png"
+Content-Type: image/png
+
+< /home/max/Pictures/2.png
+--WebKitFormBoundary--

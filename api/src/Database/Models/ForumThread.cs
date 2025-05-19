@@ -15,7 +15,8 @@ public class ForumThread
     public long CreatedByUserId { get; set; }
     public virtual User CreatedByUser { get; set; } = null!;
 
-    public virtual List<ThreadComment> Comments { get; set; } = null!;
+    public virtual List<ForumThreadImage> Images { get; set; } = null!;
+    public virtual List<ForumThreadComment> Comments { get; set; } = null!;
     public virtual List<ForumThreadVote> Votes { get; set; } = null!;
 
     public bool IsDeleted { get; set; }

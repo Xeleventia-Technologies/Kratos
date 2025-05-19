@@ -1,0 +1,3 @@
+# @import ../variables.http
+
+DELETE /api/member/5

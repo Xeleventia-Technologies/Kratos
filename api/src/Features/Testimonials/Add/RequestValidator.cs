@@ -8,9 +8,5 @@ public class RequestValidator : AbstractValidator<Request>
     {
         RuleFor(x => x.Text)
             .NotEmpty();
-
-        RuleFor(x => x.UserId)
-            .NotEmpty()
-            .GreaterThan(0);
     }
 }

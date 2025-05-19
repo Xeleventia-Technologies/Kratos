@@ -15,13 +15,17 @@ public class Repository([FromServices] DatabaseContext database) : IRepository
     public async Task<List<Projections.Client>> GetAllAsync(CancellationToken cancellationToken)
     {
         List<Projections.Client> clients = await database.Clients
-            .Select(c => new Projections.Client()
-            {
-                Id = c.Id,
-                CloudStorageLink = c.CloudStorageLink,
-                Username = c.User.UserName!
-            })
-            .ToListAsync();
+            .Where(c => !c.IsDeleted)
+            .OrderBy(c => c.Id)
+            .Select(c => new Projections.Client(
+                c.Id,
+                c.UserId,
+                c.User.Profile!.FullName,
+                c.User.Email!,
+                c.User.Profile!.MobileNumber,
+                c.CloudStorageLink
+            ))
+            .ToListAsync(cancellationToken);
 
         return clients;
     }

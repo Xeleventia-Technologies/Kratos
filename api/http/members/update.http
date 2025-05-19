@@ -1,0 +1,14 @@
+# @import ../variables.http
+
+PUT /api/member/5
+Content-Type: multipart/form-data; boundary=WebKitFormBoundary
+
+--WebKitFormBoundary
+Content-Disposition: form-data; name="fullName"
+
+Member 1 updated
+--WebKitFormBoundary
+Content-Disposition: form-data; name="bio"
+
+Member 1 Bio updated
+--WebKitFormBoundary--

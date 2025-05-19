@@ -1,6 +1,7 @@
 using FluentValidation;
 
 using Kratos.Api.Common;
+using Kratos.Api.Common.Constants;
 
 namespace Kratos.Api.Features.Testimonials;
 
@@ -8,9 +9,13 @@ public class Registry : IRegistry
 {
     public void MapEndpoints(WebApplication app)
     {
-        app.MapGet("/testimonials", GetAll.Handler.HandleAsync);
-        app.MapPost("/testimonial", Add.Handler.HandleAsync);
-        app.MapDelete("/testimonial/user/{userId}", Delete.Handler.HandleAsync);
+        app.MapGet("/api/testimonials", GetAll.Handler.HandleAsync);
+        
+        app.MapPost("/api/testimonial", Add.Handler.HandleAsync)
+            .RequireAuthorization(Policy.RequireValidJwtUser.Name);
+
+        app.MapDelete("/api/testimonial/user/{userId}", Delete.Handler.HandleAsync)
+            .RequireAuthorization(Policy.RequireValidJwtUser.Name);
     }
 
     public void AddServices(IServiceCollection services)

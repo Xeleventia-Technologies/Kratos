@@ -30,6 +30,10 @@ public class ServiceEntityConfiguration : IEntityTypeConfiguration<Service>
             .IsRequired()
             .HasMaxLength(255);
 
+        builder.Property(x => x.SeoFriendlyName)
+            .IsRequired()
+            .HasMaxLength(255);
+
         builder.Property(x => x.IsDeleted)
             .IsRequired()
             .HasDefaultValue(false);
@@ -43,6 +47,12 @@ public class ServiceEntityConfiguration : IEntityTypeConfiguration<Service>
             .HasDefaultValueSql("now()");
 
         builder.HasIndex(x => x.Name);
+        builder.HasIndex(x => x.SeoFriendlyName).IsUnique();
         builder.HasIndex(x => x.IsDeleted);
+
+        builder
+            .HasOne(x => x.ParentService)
+            .WithMany(x => x.ChildServices)
+            .HasForeignKey(x => x.ParentServiceId);
     }
 }

@@ -4,7 +4,7 @@ public static class Enums
 {
     public enum OtpPurpose { SignUp, ResetPassword }
     public enum LoggedInWith { Email, Google }
-    public enum BlogApprovalStaus { Pending, Approved, Rejected }
-    public enum BlogVoteType { Upvote, Downvote }
+    public enum ArticleApprovalStatus { Pending, Approved, Rejected }
     public enum ForumThreadVoteType { Upvote, Downvote }
+    public enum AssignedOptedInServiceStatus { Pending, InProgress, Completed }
 }

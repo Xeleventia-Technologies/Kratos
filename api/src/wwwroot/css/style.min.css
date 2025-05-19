@@ -2697,7 +2697,7 @@ textarea:focus{
 
  .aside__resize {
      width: 80px;
-     height: 80px;
+     height: 72px;
      display: -webkit-box;
      display: -ms-flexbox;
      display: flex;

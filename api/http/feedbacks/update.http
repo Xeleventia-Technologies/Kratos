@@ -1,0 +1,9 @@
+# @import ../variables.http
+
+PUT /api/feedback
+Authorization: Bearer {{userAccessToken}}
+Content-Type: application/json
+{
+    "outOfFiveRating": 5,
+    "comment": "This is comment 2"
+}

@@ -27,10 +27,16 @@ public class Service(
             return Result.UnauthorizedError();
         }
 
-        IList<string> userRoles = await userManager.GetRolesAsync(userSession.User);
-        IList<Claim> permissions = await userManager.GetClaimsAsync(userSession.User);
+        User? user = await userManager.FindByIdAsync(userId.ToString());
+        if (user is null)
+        {
+            return Result.UnauthorizedError();
+        }
 
-        string newAccessToken = tokenService.GenerateAccessToken(userSession.User, [.. userRoles], [.. permissions]);
+        IList<string> userRoles = await userManager.GetRolesAsync(user);
+        IList<Claim> permissions = await userManager.GetClaimsAsync(user);
+
+        string newAccessToken = tokenService.GenerateAccessToken(user, [.. userRoles], [.. permissions]);
         string newRefreshToken = tokenService.GenerateRefreshToken();
         DateTime newRefreshTokenExpiry = DateTime.UtcNow.AddDays(jwtOptions.Value.RefreshTokenExpiryInDays);
 

@@ -19,12 +19,16 @@ public class OtpRepository([FromServices] DatabaseContext database) : IOtpReposi
 {
     public async Task<UserOtp?> GetOtpForEmailAsync(string email, Enums.OtpPurpose purpose, CancellationToken cancellationToken)
     {
-        return await database.UserOtps.FirstOrDefaultAsync(x => x.Email == email && x.Purpose == purpose, cancellationToken);
+        return await database.UserOtps
+            .AsNoTracking()
+            .FirstOrDefaultAsync(x => x.Email == email && x.Purpose == purpose, cancellationToken);
     }
 
     public async Task<UserOtp?> GetOtpForEmailAsync(string email, string otp, Enums.OtpPurpose purpose, CancellationToken cancellationToken)
     {
-        return await database.UserOtps.FirstOrDefaultAsync(x => x.Email == email && x.Otp == otp && x.Purpose == purpose, cancellationToken);
+        return await database.UserOtps
+            .AsNoTracking()
+            .FirstOrDefaultAsync(x => x.Email == email && x.Otp == otp && x.Purpose == purpose, cancellationToken);
     }
 
     public async Task AddOrUpdateOtpAsync(UserOtp userOtp, CancellationToken cancellationToken)

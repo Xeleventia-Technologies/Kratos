@@ -18,7 +18,7 @@ public class UserSessionRepository([FromServices] DatabaseContext database) : IU
     public async Task<UserSession?> GetUserSessionAsync(long userId, string sessionId, CancellationToken cancellationToken)
     {
         return await database.UserSessions
-            .Include(us => us.User)
+            .AsNoTracking()
             .FirstOrDefaultAsync(x =>
                 x.UserId == userId &&
                 x.SessionId == sessionId &&

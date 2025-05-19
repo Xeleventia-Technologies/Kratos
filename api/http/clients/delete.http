@@ -1,0 +1,3 @@
+# @import ../variables.http
+
+DELETE /api/client/1

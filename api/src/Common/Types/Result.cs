@@ -15,9 +15,9 @@ public class ResultBase
     public Error? Error { get; set; } = null!;
 }
 
-public class Result<T> : ResultBase where T : class
+public class Result<T> : ResultBase
 {
-    public T Value { get; set; } = null!;
+    public T Value { get; set; } = default!;
 
     public Result AsNonGeneric() => new()
     {
@@ -38,7 +38,7 @@ public class Result<T> : ResultBase where T : class
 public class Result : ResultBase
 {
     public static Result Success(SuccessStatus successStatus = Types.SuccessStatus.Ok) => new() { IsSuccess = true, SuccessStatus = successStatus };
-    public static Result<T> Success<T>(T value, SuccessStatus successStatus = Types.SuccessStatus.Ok) where T : class => new() { IsSuccess = true, SuccessStatus = successStatus, Value = value };
+    public static Result<T> Success<T>(T value, SuccessStatus successStatus = Types.SuccessStatus.Ok) => new() { IsSuccess = true, SuccessStatus = successStatus, Value = value };
 
     public static Result Fail(Error error) => new() { Error = error };
 

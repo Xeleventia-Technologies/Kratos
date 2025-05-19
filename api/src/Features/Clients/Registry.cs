@@ -8,12 +8,12 @@ public class Registry : IRegistry
 {
     public void MapEndpoints(WebApplication app)
     {
-        app.MapGet("/clients", GetAll.Handler.HandleAsync);
-        app.MapGet("/client/{clientId}", GetById.Handler.HandleAsync);
+        app.MapGet("/api/clients", GetAll.Handler.HandleAsync);
+        app.MapGet("/api/client/{clientId}", GetById.Handler.HandleAsync);
 
-        app.MapPost("/client", Add.Handler.AddAsync);
-
-        app.MapPut("/client/{clientId}", Update.Handler.HandleAsync);
+        app.MapPost("/api/client", Add.Handler.AddAsync);
+        app.MapPut("/api/client/{clientId}", Update.Handler.HandleAsync);
+        app.MapDelete("/api/client/{clientId}", Delete.Handler.HandleAsync);
     }
 
     public void AddServices(IServiceCollection services)
@@ -31,6 +31,8 @@ public class Registry : IRegistry
         services.AddScoped<IValidator<Update.Request>, Update.RequestValidator>();
         services.AddScoped<Update.Service>();
         services.AddScoped<Update.IRepository, Update.Repository>();
-    }
 
+        services.AddScoped<Delete.IRepository, Delete.Repository>();
+        services.AddScoped<Delete.Service>();
+    }
 }

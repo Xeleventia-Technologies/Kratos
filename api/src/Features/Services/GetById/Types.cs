@@ -2,12 +2,24 @@ namespace Kratos.Api.Features.Services.GetById;
 
 public static class Projections
 {
-    public class Service
-    {
-        public long Id { get; set; }
-        public string Name { get; set; } = null!;
-        public string Summary { get; set; } = null!;
-        public string Description { get; set; } = null!;
-        public string ImageFileName { get; set; } = null!;
-    }
+    public record Service(
+       long Id,
+       string Name,
+       string Summary,
+       string Description,
+       string ImageFileName,
+       string? SeoFriendlyName,
+       string? ParentServiceName,
+       DateTime CreatedAt
+   );
+
+   public record ServiceForUi(
+       long Id,
+       string Name,
+       string Summary,
+       string Description,
+       string ImageFileName,
+       string? SeoFriendlyName,
+       List<ServiceForUi>? ChildServices = null
+   );
 }

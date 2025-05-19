@@ -7,14 +7,14 @@ namespace Kratos.Api.Features.Testimonials.Add;
 
 public class Service([FromServices] IRepository repo)
 {
-    public async Task<Result> AddAsync(Testimonial testimonial, CancellationToken cancellationToken)
+    public async Task<Result> AddAsync(long userId, Testimonial testimonial, CancellationToken cancellationToken)
     {
-        if (await repo.ExistsForUser(testimonial.UserId, cancellationToken))
+        if (await repo.ExistsForUser(userId, cancellationToken))
         {
             return Result.ConflictError("Testimonial already exists for user.");
         }
 
-        await repo.AddAsync(testimonial, cancellationToken);
+        await repo.AddAsync(userId, testimonial, cancellationToken);
         return Result.Success();
     }
 }

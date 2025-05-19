@@ -1,15 +1,17 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
 
-using Kratos.Api.Common.Types;
 using Kratos.Api.Common.Extensions;
+using Kratos.Api.Common.Repositories;
+using Kratos.Api.Common.Types;
 using Kratos.Api.Database.Configurations.Identity;
 using Kratos.Api.Database.Models.Identity;
+using Kratos.Api.Database.Models;
 
 namespace Kratos.Api.Features.Auth.SignUp;
 
 public class Service(
-    [FromServices] IRepository repository,
+    [FromServices] IOtpRepository otpRepository,
     [FromServices] UserManager<User> userManager
 )
 {
@@ -21,7 +23,7 @@ public class Service(
             return Result.ConflictError("This email is not avaliable.");
         }
 
-        UserOtp? userOtp = await repository.GetSignUpOtpAsync(request.Email, request.Otp, cancellationToken);
+        UserOtp? userOtp = await otpRepository.GetOtpForEmailAsync(request.Email, request.Otp, Enums.OtpPurpose.SignUp, cancellationToken);
         if (userOtp is null)
         {
             return Result.CannotProcessError("Invalid or expired OTP");
@@ -34,7 +36,7 @@ public class Service(
             return Result.CannotProcessError("Invalid or expired OTP");
         }
 
-        await repository.DeleteSignUpOtpAsync(userOtp, cancellationToken);
+        await otpRepository.DeleteOtpAsync(userOtp, cancellationToken);
 
         User newUser = new()
         {

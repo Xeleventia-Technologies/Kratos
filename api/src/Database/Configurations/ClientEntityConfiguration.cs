@@ -18,6 +18,13 @@ public class ClientEntityConfiguration : IEntityTypeConfiguration<Client>
             .HasColumnType("text")
             .IsRequired();
 
+        builder.Property(x => x.UserId)
+            .IsRequired();
+
+        builder.Property(x => x.IsDeleted)
+            .IsRequired()
+            .HasDefaultValue(false);
+
         builder.Property(x => x.CreatedAt)
             .IsRequired()
             .HasDefaultValueSql("now()");

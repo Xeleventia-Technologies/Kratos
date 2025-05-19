@@ -1,0 +1,19 @@
+# @import ../variables.http
+
+POST /api/member
+Content-Type: multipart/form-data; boundary=WebKitFormBoundary
+
+--WebKitFormBoundary
+Content-Disposition: form-data; name="fullName"
+
+Member 1
+--WebKitFormBoundary
+Content-Disposition: form-data; name="bio"
+
+Member 1 Bio
+--WebKitFormBoundary
+Content-Disposition: form-data; name="displayPIcture"; filename="2.png"
+Content-Type: image/png
+
+< /home/max/Pictures/2.png
+--WebKitFormBoundary--

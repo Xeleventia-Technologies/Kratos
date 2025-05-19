@@ -1,0 +1,14 @@
+POST https://localhost:5000/api/auth/generate-otp
+Content-Type: application/json
+{
+    "email": "user2@gmail.com",
+    "purpose": "signup"
+}
+
+POST https://localhost:5000/api/auth/sign-up
+Content-Type: application/json
+{
+    "email": "user2@gmail.com",
+    "password": "User2@1234",
+    "otp": ""
+}

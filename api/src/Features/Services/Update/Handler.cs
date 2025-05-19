@@ -28,7 +28,7 @@ public class Handler
             return validationResult.AsHttpError();
         }
 
-        Result result = await service.UpdateAsync(serviceId, request.AsService(), request.Image, cancellationToken);
+        Result result = await service.UpdateAsync(serviceId, request, cancellationToken);
         if (!result.IsSuccess)
         {
             logger.LogError("Could not update service. Reason: {Reason}", result.Error!.Message);

@@ -67,3 +67,5 @@ app.MapRazorComponents<App>();
 
 app.Run();
 await Log.CloseAndFlushAsync();
+
+public partial class Program;

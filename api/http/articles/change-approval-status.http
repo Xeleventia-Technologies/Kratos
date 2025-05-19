@@ -1,0 +1,7 @@
+# @import ../variables.http
+
+PATCH /api/article/2/change-approval-status
+Content-Type: application/json
+{
+    "approvalStatus": "approved"
+}

@@ -18,23 +18,23 @@ public class Handler
         CancellationToken cancellationToken
     )
     {
-        logger.LogInformation("Adding Client for user {UserId} with cloud storage link {CloudStorageLink}", request.UserId, request.CloudStorageLink);
+        logger.LogInformation("[Clients] Adding a new client with name {Name}", request.FullName);
 
         ValidationResult validationResult = await requestValidator.ValidateAsync(request, cancellationToken);
         if (!validationResult.IsValid)
         {
-            logger.LogInformation("RequestValidation failed");
+            logger.LogInformation("[Clients] RequestValidation failed. Reason: {Error}", validationResult.ToString());
             return validationResult.AsHttpError();
         }
 
-        Result serviceResult = await service.AddAsync(request.AsClient(), cancellationToken);
+        Result serviceResult = await service.AddAsync(request, cancellationToken);
         if (!serviceResult.IsSuccess)
         {
-            logger.LogInformation("Operation was not successful: {Error}", serviceResult.Error);
+            logger.LogInformation("[Clients] Operation was not successful: {Error}", serviceResult.Error);
             return serviceResult.Error.AsHttpError();
         }
 
-        logger.LogInformation("Client added successfully");
+        logger.LogInformation("[Clients] Client added successfully");
         return Results.Created();
     }
 }

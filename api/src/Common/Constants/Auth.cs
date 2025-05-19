@@ -13,6 +13,17 @@ public readonly record struct Scheme(string Name)
     public static readonly Scheme ExpiredJwt = new("ExpiredJwtScheme");
 }
 
+public readonly record struct Policy(string Name)
+{
+    public static readonly Policy RequireValidJwt = new("RequireValidJwt");
+    public static readonly Policy RequireValidJwtAdmin = new("RequireValidJwtAdmin");
+    public static readonly Policy RequireValidJwtUser = new("RequireValidJwtUser");
+    
+    public static readonly Policy AllowExpiredJwt = new("AllowExpiredJwt");
+    public static readonly Policy AllowExpiredJwtAdmin = new("AllowExpiredJwtAdmin");
+    public static readonly Policy AllowExpiredJwtUser = new("AllowExpiredJwtUser");
+}
+
 public readonly record struct Role(string Name)
 {
     public static readonly Role Admin = new("Admin");
@@ -22,16 +33,7 @@ public readonly record struct Role(string Name)
 public readonly record struct Permission(string Name)
 {
     public static readonly Permission DefaultUser = new("DefaultUser");
-    public static readonly Permission DefautlAdmin = new("DefaultAdmin");
-}
-
-public readonly record struct Policy(string Name)
-{
-    public static readonly Policy RequireValidJwt = new("RequireValidJwt");
-    public static readonly Policy AllowExpiredJwt = new("AllowExpiredJwt");
-    
-    public static readonly Policy RequireAdmin = new("RequireAdmin");
-    public static readonly Policy RequireUser = new("User");
+    public static readonly Permission DefaultAdmin = new("DefaultAdmin");
 }
 
 public readonly record struct Claim(string Name)

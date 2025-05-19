@@ -1,0 +1,4 @@
+# @import ../variables.http
+
+GET /api/articles/my
+Authorization: Bearer {{userAccessToken}}

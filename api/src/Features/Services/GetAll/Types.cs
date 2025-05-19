@@ -1,13 +1,18 @@
 namespace Kratos.Api.Features.Services.GetAll;
 
+public record GetParams(int? ParentId = null, bool? All = null);
+
 public static class Projections
 {
-    public class Service
-    {
-        public long Id { get; set; }
-        public string Name { get; set; } = null!;
-        public string Summary { get; set; } = null!;
-        public string Description { get; set; } = null!;
-        public string ImageFileName { get; set; } = null!;
-    }
+    public record Service(
+        long Id,
+        string Name,
+        string Summary,
+        string Description,
+        string ImageFileName,
+        string SeoFriendlyName,
+        long? ParentServiceId,
+        string? ParentServiceName,
+        DateTime CreatedAt
+    );
 }

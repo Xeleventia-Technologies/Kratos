@@ -1,0 +1,4 @@
+# @import ../variables.http
+
+GET /api/profile
+Authorization: Bearer {{userAccessToken}}

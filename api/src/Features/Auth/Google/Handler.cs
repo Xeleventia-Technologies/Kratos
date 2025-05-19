@@ -75,6 +75,9 @@ public class Handler
         httpResponse.AppendCookie(TokenType.RefreshToken.Name, generatedTokens.RefreshToken, Registry.RefreshTokensWebUrl, DateTimeOffset.UtcNow.AddDays(jwtOptions.Value.RefreshTokenExpiryInDays));
 
         logger.LogInformation("[Auth/Google] Google login request completed successfully.");
-        return Results.Ok(new OnlyAccessToken(generatedTokens.AccessToken));
+        return Result.Success(
+            new OnlyAccessToken(generatedTokens.AccessToken),
+            result.SuccessStatus!.Value
+        ).AsHttpResponse();
     }
 }

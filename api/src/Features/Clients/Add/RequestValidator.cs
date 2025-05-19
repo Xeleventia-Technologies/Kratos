@@ -6,11 +6,23 @@ public class RequestValidator : AbstractValidator<Request>
 {
     public RequestValidator()
     {
-        RuleFor(x => x.CloudStorageLink)
+        RuleFor(x => x.FullName)
             .NotEmpty();
 
-        RuleFor(x => x.UserId)
+        RuleFor(x => x.Email)
             .NotEmpty()
-            .GreaterThan(0);
+            .EmailAddress();
+
+        RuleFor(x => x.MobileNumber)
+            .NotEmpty()
+            .MinimumLength(10)
+                .WithMessage("Mobile number must be at least 10 digits")
+            .MaximumLength(10)
+                .WithMessage("Mobile number must be at most 10 digits")
+            .Matches(@"^\d+$")
+                .WithMessage("Mobile number must be a number");
+        
+        RuleFor(x => x.CloudStorageLink)
+            .NotEmpty();
     }
 }

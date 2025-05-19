@@ -4,13 +4,13 @@ namespace Kratos.Api.Common.Services;
 
 public interface IImageUploadService
 {
-    Task<string> UploadImageAsync(Folders.Uploads folderName, IFormFile file, CancellationToken cancellationToken);
-    bool DeleteImage(Folders.Uploads folderName, string fileName);
+    Task<string> UploadImageAsync(Folders.Upload folderName, IFormFile file, CancellationToken cancellationToken);
+    bool DeleteImage(Folders.Upload folderName, string fileName);
 }
 
 public class ImageUploadService(IWebHostEnvironment environment) : IImageUploadService
 {
-    public async Task<string> UploadImageAsync(Folders.Uploads folderName, IFormFile file, CancellationToken cancellationToken)
+    public async Task<string> UploadImageAsync(Folders.Upload folderName, IFormFile file, CancellationToken cancellationToken)
     {
         long currentUnixTimestamp = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
         string extension = Path.GetExtension(file.FileName);
@@ -23,7 +23,7 @@ public class ImageUploadService(IWebHostEnvironment environment) : IImageUploadS
         return fileName;
     }
 
-    public bool DeleteImage(Folders.Uploads folderName, string fileName)
+    public bool DeleteImage(Folders.Upload folderName, string fileName)
     {
         string uploadPath = Path.Join(environment.WebRootPath, folderName.ToString(), fileName);
         if (!File.Exists(uploadPath))

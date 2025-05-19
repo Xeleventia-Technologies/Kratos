@@ -9,24 +9,28 @@ public class Registry : IRegistry
 {
     public void MapEndpoints(WebApplication app)
     {
-        app.MapGet("/services", GetAll.Handler.HandleAsync);
-        app.MapGet("/service/{serviceId}", GetById.Handler.HandleAsync);
+        app.MapGet("/api/services/all", GetAll.Handler.HandleAsync);
+        app.MapGet("/api/services", Get.Handler.HandleAsync);
+        app.MapGet("/api/service/{serviceId}", GetById.Handler.HandleAsync);
 
-        app.MapPost("/service", Add.Handler.HandleAsync)
+        app.MapPost("/api/service", Add.Handler.HandleAsync)
             .Accepts<IFormFile>(FormEncodingTypes.MultipartFormData)
             .DisableAntiforgery();
 
-        app.MapPut("/service/{serviceId}", Update.Handler.HandleAsync)
+        app.MapPut("/api/service/{serviceId}", Update.Handler.HandleAsync)
             .Accepts<IFormFile>(FormEncodingTypes.MultipartFormData)
             .DisableAntiforgery();
 
-        app.MapDelete("/service/{serviceId}", Delete.Handler.HandleAsync);
+        app.MapDelete("/api/service/{serviceId}", Delete.Handler.HandleAsync);
     }
 
     public void AddServices(IServiceCollection services)
     {
         services.AddScoped<GetAll.IRepository, GetAll.Repository>();
         services.AddScoped<GetAll.Service>();
+
+        services.AddScoped<Get.IRepository, Get.Repository>();
+        services.AddScoped<Get.Service>();
 
         services.AddScoped<GetById.IRepository, GetById.Repository>();
         services.AddScoped<GetById.Service>();

@@ -75,7 +75,7 @@ public static class DatabaseInitializer
             await database.UserClaims.AddAsync(new()
             {
                 ClaimType = "Default",
-                ClaimValue = Common.Constants.Permission.DefautlAdmin.Name,
+                ClaimValue = Common.Constants.Permission.DefaultAdmin.Name,
                 UserId = user.Id
             });
             await database.SaveChangesAsync();

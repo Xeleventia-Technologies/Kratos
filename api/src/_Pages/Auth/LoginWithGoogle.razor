@@ -36,7 +36,7 @@
         body.sessionId = sessionId;
       }
 
-      let response = await fetch('https://localhost:5000/auth/google', {
+      let response = await fetch('https://localhost:5000/api/auth/google', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -53,7 +53,7 @@
 
     async function refreshTokens()
     {
-      let response = await fetch("/auth/refresh-tokens", {
+      let response = await fetch("/api/auth/refresh-tokens", {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${accessToken}`,

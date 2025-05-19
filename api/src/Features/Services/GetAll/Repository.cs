@@ -14,18 +14,20 @@ public class Repository([FromServices] DatabaseContext database) : IRepository
 {
     public async Task<List<Projections.Service>> GetAllAsync(CancellationToken cancellationToken)
     {
-        List<Projections.Service> services = await database.Services
+        return await database.Services
             .Where(s => !s.IsDeleted)
-            .Select(s => new Projections.Service()
-            {
-                Id = s.Id,
-                Name = s.Name,
-                Summary = s.Summary,
-                Description = s.Description,
-                ImageFileName = s.ImageFileName
-            })
+            .OrderBy(x => x.Id)
+            .Select(s => new Projections.Service(
+                s.Id,
+                s.Name,
+                s.Summary,
+                s.Description,
+                s.ImageFileName,
+                s.SeoFriendlyName,
+                s.ParentService == null ? null : s.ParentService.Id,
+                s.ParentService == null ? null : s.ParentService.Name,
+                s.CreatedAt
+            ))
             .ToListAsync(cancellationToken);
-            
-        return services;
     }
 }

@@ -1,0 +1,11 @@
+# @import ../variables.http
+
+PUT /api/client/1
+Content-Type: application/json
+{
+    "fullName": "Abc Def 1",
+    "email": "abc@gmail.com",
+    "mobileNumber": "9879879878",
+    "cloudStorageLink": "xyz.com",
+    "resetPassword": true
+}

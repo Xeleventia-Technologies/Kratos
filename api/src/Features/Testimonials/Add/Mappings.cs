@@ -6,7 +6,6 @@ public static class Mappings
 {
     public static Testimonial AsTestimonial(this Request request) => new()
     {
-        Text = request.Text,
-        UserId = request.UserId,
+        Text = request.Text
     };
 }

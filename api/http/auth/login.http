@@ -1,0 +1,16 @@
+# @import ../variables.http
+
+POST {{host}}/api/auth/login
+Content-Type: application/json
+{
+    "email": "admin@gmail.com",
+    "password": "Admin@1234"
+}
+
+POST {{host}}/api/auth/login
+Content-Type: application/json
+{
+    "email": "user1@gmail.com",
+    "password": "User1@1234",
+    "sessionId": "e0c3f191-fffc-4269-8e81-57be1da5bda9"
+}

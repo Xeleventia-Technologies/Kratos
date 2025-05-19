@@ -7,30 +7,32 @@ namespace Kratos.Api.Features.Services.Update;
 
 public interface IRepository
 {
+    Task<bool> SeoFriendlyNameExistsAsync(long id, string seoFriendlyServiceName, CancellationToken cancellationToken);
+    Task<bool> ExistsAsync(long id, CancellationToken cancellationToken);
     Task<Database.Models.Service?> GetByIdAsync(long serviceId, CancellationToken cancellationToken);
-    Task UpdateAsync(Database.Models.Service existingService, Database.Models.Service newService, CancellationToken cancellationToken);
+    Task UpdateAsync(Database.Models.Service service, CancellationToken cancellationToken);
 }
 
 public class Repository([FromServices] DatabaseContext database) : IRepository
 {
-    public async Task<Database.Models.Service?> GetByIdAsync(long id, CancellationToken cancellationToken)
+    public async Task<bool> SeoFriendlyNameExistsAsync(long id, string seoFriendlyServiceName, CancellationToken cancellationToken)
     {
-        Database.Models.Service? existingService = await database.Services.FirstOrDefaultAsync(s => s.Id == id && !s.IsDeleted, cancellationToken);
-        return existingService;
+        return await database.Services.AnyAsync(s => EF.Functions.ILike(s.SeoFriendlyName, seoFriendlyServiceName) && s.Id != id  && !s.IsDeleted, cancellationToken);
+    }
+    
+    public async Task<bool> ExistsAsync(long id, CancellationToken cancellationToken)
+    {
+        return await database.Services.AnyAsync(s => s.Id == id && !s.IsDeleted, cancellationToken);
     }
 
-    public async Task UpdateAsync(Database.Models.Service existingService, Database.Models.Service newService, CancellationToken cancellationToken)
+    public async Task<Database.Models.Service?> GetByIdAsync(long id, CancellationToken cancellationToken)
     {
-        existingService.Name = newService.Name;
-        existingService.Summary = newService.Summary;
-        existingService.Description = newService.Description;
-        existingService.UpdatedAt = DateTime.UtcNow;
+        return await database.Services.FirstOrDefaultAsync(s => s.Id == id && !s.IsDeleted, cancellationToken);
+    }
 
-        if (newService.ImageFileName is not null)
-        {
-            existingService.ImageFileName = newService.ImageFileName;
-        }
-        
+    public async Task UpdateAsync(Database.Models.Service service, CancellationToken cancellationToken)
+    {
+        database.Services.Update(service);
         await database.SaveChangesAsync(cancellationToken);
     }
 }

@@ -27,7 +27,7 @@
     {
       const googleToken = googleResponse.credential;
 
-      let response = await fetch('https://localhost:5000/auth/google/web', {
+      let response = await fetch('https://localhost:5000/api/auth/google/web', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -41,7 +41,7 @@
 
     async function refreshTokens()
     {
-      let response = await fetch("/auth/refresh-tokens/web", {
+      let response = await fetch("/api/auth/refresh-tokens/web", {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${accessToken}`

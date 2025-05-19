@@ -1,4 +1,6 @@
-﻿using Npgsql;
+﻿using System.Collections.Concurrent;
+
+using Npgsql;
 
 using Kratos.Api.Database.Models;
 
@@ -6,22 +8,16 @@ namespace Kratos.Api.Database;
 
 public static class DataSource
 {
-    private static NpgsqlDataSource? dataSource = null;
+    private static readonly ConcurrentDictionary<string, NpgsqlDataSource> cache = new();
 
     public static NpgsqlDataSource OfPostgres(string connectionString)
     {
-        if (dataSource is not null)
-            return dataSource;
-
-        var dbSourceBuilder = new NpgsqlDataSourceBuilder(connectionString);
-
-        dbSourceBuilder.MapEnum<Enums.OtpPurpose>();
-        dbSourceBuilder.MapEnum<Enums.LoggedInWith>();
-        dbSourceBuilder.MapEnum<Enums.BlogApprovalStaus>();
-        dbSourceBuilder.MapEnum<Enums.BlogVoteType>();
-        dbSourceBuilder.MapEnum<Enums.ForumThreadVoteType>();
-
-        dataSource = dbSourceBuilder.Build();
-        return dataSource;
+        return cache.GetOrAdd(connectionString, connectionString =>
+        {
+            NpgsqlDataSourceBuilder builder = new(connectionString);
+            builder.MapEnum<Enums.LoggedInWith>();
+            
+            return builder.Build();
+        });
     }
 }

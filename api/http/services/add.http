@@ -1,0 +1,27 @@
+# @import ../variables.http
+
+POST /api/service
+Content-Type: multipart/form-data; boundary=WebKitFormBoundary
+
+--WebKitFormBoundary
+Content-Disposition: form-data; name="name"
+
+Another Service 3
+--WebKitFormBoundary
+Content-Disposition: form-data; name="summary"
+
+Another Service Summary 3
+--WebKitFormBoundary
+Content-Disposition: form-data; name="description"
+
+Another Service Description 3
+--WebKitFormBoundary
+Content-Disposition: form-data; name="parentServiceId"
+
+1
+--WebKitFormBoundary
+Content-Disposition: form-data; name="image"; filename="2.png"
+Content-Type: image/png
+
+< /home/max/Pictures/2.png
+--WebKitFormBoundary--
