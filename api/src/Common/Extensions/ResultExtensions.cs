@@ -9,11 +9,13 @@ public static class ResultExtensions
     public static IResult AsHttpResponse(this Result result)
     {
         if (!result.IsSuccess)
+        {
             return result.Error.AsHttpError();
+        }
 
         return result.SuccessStatus switch
         {
-            SuccessStatus.Created => Results.Created(),
+            SuccessStatus.Created => Results.Created(result.Url, null),
             _ => Results.Ok(),
         };
     }
@@ -21,11 +23,13 @@ public static class ResultExtensions
     public static IResult AsHttpResponse<T>(this Result<T> result) where T : class
     {
         if (!result.IsSuccess)
+        {
             return result.Error.AsHttpError();
+        }
 
         return result.SuccessStatus switch
         {
-            SuccessStatus.Created => Results.Created(uri: string.Empty, value: result.Value),
+            SuccessStatus.Created => Results.Created(result.Url, result.Value),
             _ => Results.Ok(result.Value),
         };
     }

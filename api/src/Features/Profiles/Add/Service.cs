@@ -25,6 +25,6 @@ public class Service(
             : null;
 
         await repo.AddAsync(profile, userId, displayPictureFileName, cancellationToken);
-        return Result.Success(SuccessStatus.Created);
+        return Result.Created();
     }
 }

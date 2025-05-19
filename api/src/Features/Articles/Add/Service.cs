@@ -34,7 +34,7 @@ public class Service(
         Article article = request.AsArticle(userId, articleApprovalStatus, uploadedImageFileName);
 
         await repo.AddAsync(userId, article, cancellationToken);
-        return Result.Success(SuccessStatus.Created);
+        return Result.Created();
     }
 
     private async Task<Enums.ArticleApprovalStatus> GetDefaultApprovalStatusAsync(long userId, Request request, CancellationToken cancellationToken)

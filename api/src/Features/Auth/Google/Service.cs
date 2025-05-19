@@ -46,9 +46,8 @@ public class Service(
         }
 
         GeneratedTokens generatedTokens = await tokenService.GenerateAndSaveAuthTokensAsync(sessionId, user, cancellationToken);
-        return Result.Success(
-            value: generatedTokens,
-            successStatus: newUser ? SuccessStatus.Created : SuccessStatus.Ok
-        );
+        Result<GeneratedTokens> generatedTokensResult = newUser ? Result.Created(generatedTokens) : Result.Success(generatedTokens);
+
+        return generatedTokensResult;
     }
 }
