@@ -8,5 +8,6 @@ public static class Mappings
     {
         FullName = request.FullName,
         Bio = request.Bio,
+        Position = request.Position,
     };
 }

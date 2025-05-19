@@ -14,6 +14,6 @@ public class Repository([FromServices] DatabaseContext database) : IRepository
 {
     public async Task<List<Projections.Member>> GetAllAsync(CancellationToken cancellationToken) => await database.Members
         .OrderBy(x => x.Id)
-        .Select(x => new Projections.Member(x.Id, x.FullName, x.Bio, x.DisplayPictureFileName))
+        .Select(x => new Projections.Member(x.Id, x.FullName, x.Bio, x.Position, x.DisplayPictureFileName))
         .ToListAsync(cancellationToken);
 }

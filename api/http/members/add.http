@@ -2,6 +2,7 @@
 
 POST /api/member
 Content-Type: multipart/form-data; boundary=WebKitFormBoundary
+Authorization: Bearer {{adminAccessToken}}
 
 --WebKitFormBoundary
 Content-Disposition: form-data; name="fullName"
@@ -11,6 +12,10 @@ Member 1
 Content-Disposition: form-data; name="bio"
 
 Member 1 Bio
+--WebKitFormBoundary
+Content-Disposition: form-data; name="position"
+
+CEO
 --WebKitFormBoundary
 Content-Disposition: form-data; name="displayPIcture"; filename="2.png"
 Content-Type: image/png

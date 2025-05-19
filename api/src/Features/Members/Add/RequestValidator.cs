@@ -15,6 +15,9 @@ public class RequestValidator : AbstractValidator<Request>
         RuleFor(x => x.Bio)
             .NotEmpty();
 
+        RuleFor(x => x.Position)
+            .NotEmpty();
+
         RuleFor(x => x.DisplayPicture)
             .NotEmpty()
             .Must(image => AllowedMedia.ImageTypes.Contains(image.ContentType))

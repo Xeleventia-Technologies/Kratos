@@ -26,6 +26,10 @@ public class MemberEntityConfiguration : IEntityTypeConfiguration<Member>
             .HasColumnType("text")
             .IsRequired();
 
+        builder.Property(x => x.Position)
+            .IsRequired()
+            .HasMaxLength(255);
+
         builder.Property(x => x.CreatedAt)
             .IsRequired()
             .HasDefaultValueSql("now()");

@@ -1,3 +1,4 @@
 # @import ../variables.http
 
-DELETE /api/member/5
+DELETE /api/member/1
+Authorization: Bearer {{adminAccessToken}}

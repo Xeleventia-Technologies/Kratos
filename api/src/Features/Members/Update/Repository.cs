@@ -9,7 +9,7 @@ namespace Kratos.Api.Features.Members.Update;
 public interface IRepository
 {
     Task<Member?> GetByIdAsync(long id, CancellationToken cancellationToken);
-    Task UpdateAsync(Member member, string? displayPictureFileName, CancellationToken cancellationToken);
+    Task UpdateAsync(Member member, CancellationToken cancellationToken);
 }
 
 public class Repository([FromServices] DatabaseContext database) : IRepository
@@ -21,13 +21,8 @@ public class Repository([FromServices] DatabaseContext database) : IRepository
             .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
     }
 
-    public async Task UpdateAsync(Member member, string? displayPictureFileName, CancellationToken cancellationToken)
+    public async Task UpdateAsync(Member member, CancellationToken cancellationToken)
     {
-        if (displayPictureFileName is not null)
-        {
-            member.DisplayPictureFileName = displayPictureFileName;
-        }
-
         database.Members.Update(member);
         await database.SaveChangesAsync(cancellationToken);
     }

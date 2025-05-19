@@ -14,6 +14,13 @@
   }
 }
 
+<style>
+  .card__title {
+    font-size: 30px;
+  }
+  
+</style>
+
 <section class="main__events events">
   <div class="container">
     <h1 class="events__title title">Services</h1>
@@ -22,17 +29,19 @@
       {
         <div class="events__card card card--events">
           <div class="card__inner">
-            <a class="card__title card--events-title" href="/service/@service.SeoFriendlyName" hx-target="#page-content" hx-swap="innerHTML">
+            <a class="card__title card--events-title" href="/service/@service.SeoFriendlyName" hx-target="#page-content"
+              hx-swap="innerHTML">
               @service.Name
             </a>
             <ul class="card__list card-list">
               <li class="card-list__item">
-                <p class="card-list__text">
+                <p class="card-list__text" style="font-size: 18px; text-align: justify;">
                   @service.Summary
                 </p>
               </li>
             </ul>
-            <a class="card-box__poster" href="/service/@service.SeoFriendlyName" hx-target="#page-content" hx-swap="innerHTML">
+            <a class="card-box__poster" href="/service/@service.SeoFriendlyName" hx-target="#page-content"
+              hx-swap="innerHTML">
               <img class="card-box__poster-img" src="/uploads/services/@service.ImageFileName" alt="img" />
             </a>
           </div>

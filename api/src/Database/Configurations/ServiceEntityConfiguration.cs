@@ -19,8 +19,8 @@ public class ServiceEntityConfiguration : IEntityTypeConfiguration<Service>
             .HasMaxLength(255);
 
         builder.Property(x => x.Summary)
-            .IsRequired()
-            .HasMaxLength(255);
+            .HasColumnType("text")
+            .IsRequired();
 
         builder.Property(x => x.Description)
             .HasColumnType("text")

@@ -20,10 +20,10 @@
   <div class="container">
     <ul class="breadcrumbs__list">
       <li class="breadcrumbs__list-item">
-        <a class="breadcrumbs__list-link" href="#"> Home </a>
+        <a class="breadcrumbs__list-link" href="/" hx-push-url="true" hx-target="#page-content" hx-swap="innerHTML show:top"> Home </a>
       </li>
       <li class="breadcrumbs__list-item">
-        <a class="breadcrumbs__list-link" href="#"> Service </a>
+        <a class="breadcrumbs__list-link" href="/services" hx-push-url="true" hx-target="#page-content" hx-swap="innerHTML show:top"> Services </a>
       </li>
       <li class="breadcrumbs__list-item">
         <p class="breadcrumbs__list-text">
@@ -54,20 +54,18 @@
 </div>
 
 <!-- Services Details with its subservices -->
-<section class="main__event event">
-  <div class="container">
-    <div class="event__inner">
-      <section class="event__about about-event" style="width: 100%">
-        <div class="about-event__box about-event-box">
-          <h2 class="about-event-box__title">About the service</h2>
-          <p class="about-event-box__text">
-            @service?.Description
-          </p>
-        </div>
-      </section>
-    </div>
+<div class="container">
+  <div class="event__inner">
+    <section class="event__about about-event" style="width: 100%">
+      <div class="about-event__box about-event-box">
+        <h2 class="about-event-box__title">About the service</h2>
+        <p class="about-event-box__text" style="text-align: justify; font-size: 20px; font-weight: normal;">
+          @service?.Description
+        </p>
+      </div>
+    </section>
   </div>
-</section>
+</div>
 
 @if (service?.ChildServices?.Count > 0)
 {

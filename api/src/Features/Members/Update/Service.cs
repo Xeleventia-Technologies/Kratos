@@ -27,8 +27,8 @@ public class Service(
             updatedDisplayPictureFileName = await imageUploadService.UploadImageAsync(Folders.Upload.Members, request.DisplayPicture, cancellationToken);
         }
 
-        existingMember.UpdateFrom(request);
-        await repo.UpdateAsync(existingMember, updatedDisplayPictureFileName, cancellationToken);
+        existingMember.UpdateFrom(request, updatedDisplayPictureFileName);
+        await repo.UpdateAsync(existingMember, cancellationToken);
 
         return Result.Success();
     }
