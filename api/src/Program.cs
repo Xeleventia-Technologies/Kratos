@@ -63,7 +63,7 @@ app.UseForwardedHeaders();
 app.UseExceptionHandler();
 
 app.UseAntiforgery();
-app.MapRazorComponents<App>();
+app.MapRazorComponents<_App>();
 
 app.Run();
 await Log.CloseAndFlushAsync();

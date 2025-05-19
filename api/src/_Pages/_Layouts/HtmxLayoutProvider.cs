@@ -1,9 +1,8 @@
 using Microsoft.AspNetCore.Components;
 
-using Kratos.Api._Pages._Layouts;
 using Kratos.Api.Common.Services;
 
-namespace Kratos.Api.Components
+namespace Kratos.Api._Pages._Layouts
 {
     public class HtmxLayoutProvider : LayoutComponentBase
     {
