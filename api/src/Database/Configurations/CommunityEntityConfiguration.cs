@@ -5,25 +5,26 @@ using Kratos.Api.Database.Models;
 
 namespace Kratos.Api.Database.Configurations;
 
-public class ForumThreadEntityConfiguration : IEntityTypeConfiguration<ForumThread>
+public class CommunityEntityConfiguration : IEntityTypeConfiguration<Community>
 {
-    public void Configure(EntityTypeBuilder<ForumThread> builder)
+    public void Configure(EntityTypeBuilder<Community> builder)
     {
-        builder.ToTable("forum_threads");
+        builder.ToTable("communities");
 
         builder.HasKey(x => x.Id);
         builder.Property(x => x.Id).UseIdentityAlwaysColumn();
 
-        builder.Property(x => x.Title)
+        builder.Property(x => x.Name)
+            .IsRequired()
+            .HasMaxLength(255);
+        
+        builder.Property(x => x.Summary)
             .IsRequired()
             .HasMaxLength(255);
 
-        builder.Property(x => x.Text)
+        builder.Property(x => x.ImageFileName)
             .IsRequired()
             .HasMaxLength(255);
-
-        builder.Property(x => x.ForumId)
-            .IsRequired();
 
         builder.Property(x => x.CreatedByUserId)
             .IsRequired();
@@ -41,17 +42,12 @@ public class ForumThreadEntityConfiguration : IEntityTypeConfiguration<ForumThre
             .HasDefaultValueSql("now()");
 
         builder
-            .HasOne(x => x.Forum)
-            .WithMany(x => x.Threads)
-            .HasForeignKey(x => x.ForumId);
-
-        builder
             .HasOne(x => x.CreatedByUser)
             .WithMany()
-            .HasForeignKey(x => x.CreatedByUserId);
+            .HasForeignKey(x => x.CreatedByUserId)
+            .OnDelete(DeleteBehavior.Restrict);
 
-        builder.HasIndex(x => x.ForumId);
         builder.HasIndex(x => x.CreatedByUserId);
-        builder.HasIndex(x => x.CreatedAt);
+        builder.HasIndex(x => x.IsDeleted);
     }
 }

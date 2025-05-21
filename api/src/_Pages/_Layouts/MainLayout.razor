@@ -25,25 +25,67 @@
       font-size: 80px;
     }
 
-    html,
     body {
       margin: 0;
       padding: 0;
       background: linear-gradient(180deg,
-          #000000 0%,
-          #050a11 10%,
-          #0a0f1a 20%,
-          #101624 30%,
-          #131d2c 40%,
-          #183759 50%,
-          #114085 60%,
-          #1e5aa5 75%,
-          #2e73c2 90%,
-          #3d7fd3 100%) !important;
+          #000814 0%,
+          /* deep space black-blue */
+          #020f2a 10%,
+          /* dark navy */
+          #031d3a 20%,
+          /* night blue */
+          #072b53 30%,
+          /* twilight blue */
+          #0a3764 40%,
+          /* cold blue */
+          #114674 50%,
+          /* darker sky blue */
+          #1a5a89 60%,
+          /* deep cerulean */
+          #256e9e 75%,
+          /* muted azure */
+          #3282b9 90%,
+          /* soft starlight reflection */
+          #3d96d4 100%
+          /* glowing star-touched blue */
+        );
       background-attachment: fixed;
       background-repeat: no-repeat;
       background-size: 100% 200vh;
-      background-blend-mode: soft-light;
+    }
+
+    .body--white {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(180deg,
+          #ffffff 0%,
+          #f5f8fc 10%,
+          #eaf0f8 20%,
+          #dfe9f2 30%,
+          #d6e1ec 40%,
+          #c8d5e7 50%,
+          #b2c6e4 60%,
+          #a0bfe0 75%,
+          #8fb6dd 90%,
+          #7eaedd 100%);
+      background-attachment: fixed;
+      background-repeat: no-repeat;
+      background-size: 100% 200vh;
+    }
+
+    .card,
+    .portfolio_main,
+    .section-top__inner {
+      background-color: #000814;
+    }
+
+    .body--white .portfolio_main {
+      background-color: #fff;
+    }
+
+    .body--white .work__link-image-user .name {
+      color: black !important;
     }
   </style>
 </head>

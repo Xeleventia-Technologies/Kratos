@@ -60,6 +60,7 @@ public class Registry : IRegistry
 
         services.AddScoped<IValidator<Login.Request>, Login.RequestValidator>();
         services.AddScoped<IValidator<Login.RequestWeb>, Login.RequestWebValidator>();
+        services.AddScoped<Login.IRepository, Login.Repository>();
         services.AddScoped<Login.Service>();
 
         services.AddScoped<IValidator<Google.Request>, Google.RequestValidator>();

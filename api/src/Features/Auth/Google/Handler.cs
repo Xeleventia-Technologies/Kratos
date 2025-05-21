@@ -8,7 +8,7 @@ using Kratos.Api.Common.Constants;
 using Kratos.Api.Common.Extensions;
 using Kratos.Api.Common.Options;
 using Kratos.Api.Common.Types;
-using Kratos.Api.Common.Utils;
+using Kratos.Api.Common.Services;
 
 namespace Kratos.Api.Features.Auth.Google;
 
@@ -48,6 +48,7 @@ public class Handler
         [FromBody] RequestWeb request,
         [FromServices] IValidator<RequestWeb> requestValidator,
         [FromServices] Service service,
+        [FromServices] ICookieService cookieService,
         [FromServices] IOptions<JwtOptions> jwtOptions,
         [FromServices] ILogger<Handler> logger,
         CancellationToken cancellationToken
@@ -71,12 +72,25 @@ public class Handler
 
         GeneratedTokens generatedTokens = result.Value!;
 
-        httpResponse.AppendCookie(TokenType.SessionId.Name, generatedTokens.SessionId, path: "/", DateTimeOffset.UtcNow.AddDays(jwtOptions.Value.RefreshTokenExpiryInDays));
-        httpResponse.AppendCookie(TokenType.RefreshToken.Name, generatedTokens.RefreshToken, Registry.RefreshTokensWebUrl, DateTimeOffset.UtcNow.AddDays(jwtOptions.Value.RefreshTokenExpiryInDays));
+        cookieService.AppendCookie(
+            httpResponse,
+            TokenType.SessionId.Name,
+            generatedTokens.SessionId,
+            path: "/",
+            DateTimeOffset.UtcNow.AddDays(jwtOptions.Value.RefreshTokenExpiryInDays)
+        );
+
+        cookieService.AppendCookie(
+            httpResponse,
+            TokenType.RefreshToken.Name,
+            generatedTokens.RefreshToken,
+            path: Registry.RefreshTokensWebUrl, 
+            DateTimeOffset.UtcNow.AddDays(jwtOptions.Value.RefreshTokenExpiryInDays)
+        );
 
         logger.LogInformation("[Auth/Google] Google login request completed successfully.");
      
-        OnlyAccessToken onlyAccessToken = new OnlyAccessToken(generatedTokens.AccessToken);
+        OnlyAccessToken onlyAccessToken = new(generatedTokens.AccessToken);
         Result<OnlyAccessToken> onlyAccessTokenResult = result.SuccessStatus!.Value == SuccessStatus.Created
             ? Result.Created(onlyAccessToken)
             : Result.Success(onlyAccessToken);

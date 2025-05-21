@@ -5,11 +5,11 @@ using Kratos.Api.Database.Models;
 
 namespace Kratos.Api.Database.Configurations;
 
-public class ForumThreadCommentEntityConfiguration : IEntityTypeConfiguration<ForumThreadComment>
+public class CommunityThreadCommentEntityConfiguration : IEntityTypeConfiguration<CommunityThreadComment>
 {
-    public void Configure(EntityTypeBuilder<ForumThreadComment> builder)
+    public void Configure(EntityTypeBuilder<CommunityThreadComment> builder)
     {
-        builder.ToTable("forum_thread_comments");
+        builder.ToTable("community_thread_comments");
 
         builder.HasKey(x => x.Id);
         builder.Property(x => x.Id).UseIdentityAlwaysColumn();
@@ -18,7 +18,7 @@ public class ForumThreadCommentEntityConfiguration : IEntityTypeConfiguration<Fo
             .IsRequired()
             .HasColumnType("text");
 
-        builder.Property(x => x.ForumThreadId)
+        builder.Property(x => x.ThreadId)
             .IsRequired();
 
         builder.Property(x => x.UserId)
@@ -37,9 +37,9 @@ public class ForumThreadCommentEntityConfiguration : IEntityTypeConfiguration<Fo
             .HasDefaultValue(false);
 
         builder
-            .HasOne(x => x.ForumThread)
+            .HasOne(x => x.Thread)
             .WithMany(x => x.Comments)
-            .HasForeignKey(x => x.ForumThreadId);
+            .HasForeignKey(x => x.ThreadId);
 
         builder
             .HasOne(x => x.ParentComment)
@@ -51,7 +51,7 @@ public class ForumThreadCommentEntityConfiguration : IEntityTypeConfiguration<Fo
             .WithMany()
             .HasForeignKey(x => x.UserId);
 
-        builder.HasIndex(x => x.ForumThreadId);
+        builder.HasIndex(x => x.ThreadId);
         builder.HasIndex(x => x.IsDeleted);
     }
 }

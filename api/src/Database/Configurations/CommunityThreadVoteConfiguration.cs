@@ -5,11 +5,11 @@ using Kratos.Api.Database.Models;
 
 namespace Kratos.Api.Database.Configurations;
 
-public class ForumThreadVoteEntityConfiguration : IEntityTypeConfiguration<ForumThreadVote>
+public class CommunityThreadVoteEntityConfiguration : IEntityTypeConfiguration<CommunityThreadVote>
 {
-    public void Configure(EntityTypeBuilder<ForumThreadVote> builder)
+    public void Configure(EntityTypeBuilder<CommunityThreadVote> builder)
     {
-        builder.ToTable("forum_thread_votes");
+        builder.ToTable("community_thread_votes");
 
         builder.HasKey(x => x.Id);
         builder.Property(x => x.Id).UseIdentityAlwaysColumn();
@@ -20,7 +20,7 @@ public class ForumThreadVoteEntityConfiguration : IEntityTypeConfiguration<Forum
         builder.Property(x => x.VotedByUserId)
             .IsRequired();
 
-        builder.Property(x => x.ForumThreadId)
+        builder.Property(x => x.ThreadId)
             .IsRequired();
 
         builder
@@ -29,14 +29,14 @@ public class ForumThreadVoteEntityConfiguration : IEntityTypeConfiguration<Forum
             .HasForeignKey(x => x.VotedByUserId);
 
         builder
-            .HasOne(x => x.ForumThread)
+            .HasOne(x => x.Thread)
             .WithMany(x => x.Votes)
-            .HasForeignKey(x => x.ForumThreadId);
+            .HasForeignKey(x => x.ThreadId);
 
-        builder.HasIndex(x => x.ForumThreadId);
+        builder.HasIndex(x => x.ThreadId);
 
         builder
-            .HasIndex(x => new { x.ForumThreadId, x.VotedByUserId })
+            .HasIndex(x => new { x.ThreadId, x.VotedByUserId })
             .IsUnique();
     }
 }

@@ -9,25 +9,29 @@ public class Registry : IRegistry
 {
     public void MapEndpoints(WebApplication app)
     {
-        app.MapGet("/api/articles", GetAll.Handler.HandelAsync);
+        app.MapGet("/api/articles", GetAll.Handler.HandelAsync)
+            .RequireAuthorization(Policy.RequireValidJwtAdmin.Name);
         
         app.MapGet("/api/articles/my", GetForUser.Handler.HandelAsync)
             .RequireAuthorization();
 
         app.MapGet("/api/articles/approved", GetApproved.Handler.HandelAsync);
-        app.MapGet("/api/article/{articleId}", GetById.Handler.HandleAsync);
+        app.MapGet("/api/article/{articleId}", GetById.Handler.HandleAsync)
+            .RequireAuthorization()
+            .AllowAnonymous();
 
         app.MapPost("/api/article", Add.Handler.HandleAsync)
-            .RequireAuthorization(Policy.RequireValidJwt.Name)
+            .RequireAuthorization()
             .Accepts<IFormFile>(FormEncodingTypes.MultipartFormData)
             .DisableAntiforgery();
 
         app.MapPut("/api/article/{articleId}", Update.Handler.HandleAsync)
-            .RequireAuthorization(Policy.RequireValidJwt.Name)
+            .RequireAuthorization()
             .Accepts<IFormFile>(FormEncodingTypes.MultipartFormData)
             .DisableAntiforgery();
 
-        app.MapPatch("/api/article/{articleId}/change-approval-status", ChangeApprovalStatus.Handler.HandleAsync);
+        app.MapPatch("/api/article/{articleId}/change-approval-status", ChangeApprovalStatus.Handler.HandleAsync)
+            .RequireAuthorization(Policy.RequireValidJwtAdmin.Name);
     }
 
     public void AddServices(IServiceCollection services)

@@ -9,19 +9,24 @@ public class Registry : IRegistry
 {
     public void MapEndpoints(WebApplication app)
     {
-        app.MapGet("/api/services/all", GetAll.Handler.HandleAsync);
+        app.MapGet("/api/services/all", GetAll.Handler.HandleAsync)
+            .RequireAuthorization(Policy.RequireValidJwtAdmin.Name);
+
         app.MapGet("/api/services", Get.Handler.HandleAsync);
         app.MapGet("/api/service/{serviceId}", GetById.Handler.HandleAsync);
 
         app.MapPost("/api/service", Add.Handler.HandleAsync)
+            .RequireAuthorization(Policy.RequireValidJwtAdmin.Name)
             .Accepts<IFormFile>(FormEncodingTypes.MultipartFormData)
             .DisableAntiforgery();
 
         app.MapPut("/api/service/{serviceId}", Update.Handler.HandleAsync)
+            .RequireAuthorization(Policy.RequireValidJwtAdmin.Name)
             .Accepts<IFormFile>(FormEncodingTypes.MultipartFormData)
             .DisableAntiforgery();
 
-        app.MapDelete("/api/service/{serviceId}", Delete.Handler.HandleAsync);
+        app.MapDelete("/api/service/{serviceId}", Delete.Handler.HandleAsync)
+            .RequireAuthorization(Policy.RequireValidJwtAdmin.Name);
     }
 
     public void AddServices(IServiceCollection services)

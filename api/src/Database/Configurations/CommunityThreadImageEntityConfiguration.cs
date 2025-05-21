@@ -5,11 +5,11 @@ using Kratos.Api.Database.Models;
 
 namespace Kratos.Api.Database.Configurations;
 
-public class ForumThreadImageEntityConfiguration : IEntityTypeConfiguration<ForumThreadImage>
+public class CommunityThreadImageEntityConfiguration : IEntityTypeConfiguration<CommunityThreadImage>
 {
-    public void Configure(EntityTypeBuilder<ForumThreadImage> builder)
+    public void Configure(EntityTypeBuilder<CommunityThreadImage> builder)
     {
-        builder.ToTable("forum_thread_images");
+        builder.ToTable("community_thread_images");
 
         builder.HasKey(x => x.Id);
         builder.Property(x => x.Id).UseIdentityAlwaysColumn();

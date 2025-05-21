@@ -1,6 +1,7 @@
 using FluentValidation;
 
 using Kratos.Api.Common;
+using Kratos.Api.Common.Constants;
 
 namespace Kratos.Api.Features.Clients;
 
@@ -8,12 +9,20 @@ public class Registry : IRegistry
 {
     public void MapEndpoints(WebApplication app)
     {
-        app.MapGet("/api/clients", GetAll.Handler.HandleAsync);
-        app.MapGet("/api/client/{clientId}", GetById.Handler.HandleAsync);
+        app.MapGet("/api/clients", GetAll.Handler.HandleAsync)
+            .RequireAuthorization(Policy.RequireValidJwtAdmin.Name);
 
-        app.MapPost("/api/client", Add.Handler.AddAsync);
-        app.MapPut("/api/client/{clientId}", Update.Handler.HandleAsync);
-        app.MapDelete("/api/client/{clientId}", Delete.Handler.HandleAsync);
+        app.MapGet("/api/client/{clientId}", GetById.Handler.HandleAsync)
+            .RequireAuthorization(Policy.RequireValidJwtAdmin.Name);
+
+        app.MapPost("/api/client", Add.Handler.AddAsync)
+            .RequireAuthorization(Policy.RequireValidJwtAdmin.Name);
+            
+        app.MapPut("/api/client/{clientId}", Update.Handler.HandleAsync)
+            .RequireAuthorization(Policy.RequireValidJwtAdmin.Name);
+
+        app.MapDelete("/api/client/{clientId}", Delete.Handler.HandleAsync)
+            .RequireAuthorization(Policy.RequireValidJwtAdmin.Name);
     }
 
     public void AddServices(IServiceCollection services)

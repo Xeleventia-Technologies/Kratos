@@ -1,6 +1,6 @@
 # @import ../variables.http
 
-PUT /api/article/3
+PUT /api/article/1
 Authorization: Bearer {{userAccessToken}}
 Content-Type: multipart/form-data; boundary=WebKitFormBoundary
 

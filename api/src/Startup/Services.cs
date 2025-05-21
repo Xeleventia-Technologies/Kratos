@@ -40,6 +40,7 @@ public static class Assembly
 
     public static IServiceCollection ConfigureOptions(this IServiceCollection services, IConfiguration configuration)
     {
+        services.Configure<Common.Options.CookieOptions>(configuration.GetRequiredSection(Common.Options.CookieOptions.SectionName));
         services.Configure<EmailOptions>(configuration.GetRequiredSection(EmailOptions.SectionName));
         services.Configure<JwtOptions>(configuration.GetRequiredSection(JwtOptions.SectionName));
         services.Configure<OAuthOptions>(configuration.GetRequiredSection(OAuthOptions.SectionName));
@@ -50,6 +51,7 @@ public static class Assembly
 
     public static IServiceCollection AddCommonServices(this IServiceCollection services)
     {
+        services.AddScoped<ICookieService, CookieService>();
         services.AddScoped<IEmailService, EmailService>();
         services.AddScoped<IGoogleTokenService, GoogleTokenService>();
         services.AddScoped<IOtpService, OtpService>();

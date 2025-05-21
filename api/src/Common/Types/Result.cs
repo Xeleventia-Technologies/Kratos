@@ -89,4 +89,5 @@ public class Result : ResultBase
     public static Result NotFoundError(string? message = null) => Fail(new NotFoundError(message));
     public static Result CannotProcessError(string? message = null) => Fail(new CannotProcessError(message));
     public static Result BadRequestError(string? message = null) => Fail(new BadRequestError(message));
+    public static Result ForbiddenError(string? message = null) => Fail(new ForbiddenError(message));
 }

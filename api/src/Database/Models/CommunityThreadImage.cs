@@ -1,9 +1,9 @@
 namespace Kratos.Api.Database.Models;
 
-public class ForumThreadImage
+public class CommunityThreadImage
 {
     public long Id { get; set; }
     public string ImageFileName { get; set; } = null!;
     public long ThreadId { get; set; }
-    public virtual ForumThread Thread { get; set; } = null!;
+    public virtual CommunityThread Thread { get; set; } = null!;
 }

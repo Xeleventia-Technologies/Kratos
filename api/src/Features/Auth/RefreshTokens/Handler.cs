@@ -10,7 +10,7 @@ using Kratos.Api.Common.Extensions;
 using Kratos.Api.Common.Types;
 using Kratos.Api.Common.Options;
 using Kratos.Api.Common.Constants;
-using Kratos.Api.Common.Utils;
+using Kratos.Api.Common.Services;
 
 namespace Kratos.Api.Features.Auth.RefreshTokens;
 
@@ -39,6 +39,7 @@ public class Handler
     public static async Task<IResult> HandleWebAsync(
         HttpContext http,
         [FromServices] Service service,
+        [FromServices] ICookieService cookieService,
         [FromServices] IOptions<JwtOptions> jwtOptions,
         CancellationToken cancellationToken
     )
@@ -64,8 +65,14 @@ public class Handler
         }
 
         GeneratedTokens generatedTokens = result.Value!;
-        http.Response.AppendCookie(TokenType.RefreshToken.Name, generatedTokens.RefreshToken, path: "/", DateTimeOffset.UtcNow.AddDays(jwtOptions.Value.RefreshTokenExpiryInDays));
+        cookieService.AppendCookie(
+            http.Response,
+            TokenType.RefreshToken.Name,
+            generatedTokens.RefreshToken,
+            path: Registry.RefreshTokensWebUrl, 
+            DateTimeOffset.UtcNow.AddDays(jwtOptions.Value.RefreshTokenExpiryInDays)
+        );
 
-        return Results.Ok();
+        return Results.Ok(new OnlyAccessToken(generatedTokens.AccessToken));
     }
 }

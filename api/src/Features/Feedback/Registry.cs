@@ -9,7 +9,8 @@ public class Registry : IRegistry
 {
     public void MapEndpoints(WebApplication app)
     {
-        app.MapGet("/api/feedbacks", GetAll.Handler.HandleAsync);
+        app.MapGet("/api/feedbacks", GetAll.Handler.HandleAsync)
+            .RequireAuthorization();
 
         app.MapPost("/api/feedback", Add.Handler.HandleAsync)
             .RequireAuthorization(Policy.RequireValidJwtUser.Name);

@@ -9,21 +9,20 @@ public class Registry : IRegistry
 {
     public void MapEndpoints(WebApplication app)
     {
-        app.MapGet("/api/members", GetAll.Handler.HandleAsync)
-            .RequireAuthorization();
+        app.MapGet("/api/members", GetAll.Handler.HandleAsync);
 
         app.MapPost("/api/member", Add.Handler.HandleAsync)
-            .RequireAuthorization()
+            .RequireAuthorization(Policy.RequireValidJwtAdmin.Name)
             .Accepts<IFormFile>(FormEncodingTypes.MultipartFormData)
             .DisableAntiforgery();
 
         app.MapPut("/api/member/{memberId}", Update.Handler.HandleAsync)
-            .RequireAuthorization()
+            .RequireAuthorization(Policy.RequireValidJwtAdmin.Name)
             .Accepts<IFormFile>(FormEncodingTypes.MultipartFormData)
             .DisableAntiforgery();
 
         app.MapDelete("/api/member/{memberId}", Delete.Handler.HandleAsync)
-            .RequireAuthorization();
+            .RequireAuthorization(Policy.RequireValidJwtAdmin.Name);
     }
 
     public void AddServices(IServiceCollection services)

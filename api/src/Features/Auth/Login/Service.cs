@@ -5,16 +5,18 @@ using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
 using Kratos.Api.Common.Services;
 using Kratos.Api.Common.Types;
 using Kratos.Api.Database.Models.Identity;
+using Kratos.Api.Database.Models;
 
 namespace Kratos.Api.Features.Auth.Login;
 
 public class Service(
+    [FromServices] IRepository repo,
     [FromServices] ITokenService tokenService,
     [FromServices] UserManager<User> userManager,
     [FromServices] SignInManager<User> signInManager
 )
 {
-    public async Task<Result<GeneratedTokens>> LoginAsync(string email, string password, string? sessionId, CancellationToken cancellationToken)
+    public async Task<Result<LoggedInUser>> LoginAsync(string email, string password, string? sessionId, CancellationToken cancellationToken)
     {
         User? foundUser = await userManager.FindByEmailAsync(email);
         if (foundUser is null || await userManager.IsLockedOutAsync(foundUser))
@@ -34,7 +36,19 @@ public class Service(
             return Result.UnauthorizedError("Wrong email or password");
         }
 
+        Profile? profile = await repo.GetUserProfileAsync(foundUser.Id, cancellationToken);
         GeneratedTokens generatedTokens = await tokenService.GenerateAndSaveAuthTokensAsync(sessionId, foundUser, cancellationToken);
-        return Result.Success(generatedTokens);
+
+        LoggedInUser loggedInUser = new(
+            foundUser.Id,
+            profile?.FullName ?? "[No name set]",
+            foundUser.Email!,
+            profile?.DisplayPictureFileName,
+            generatedTokens.AccessToken,
+            generatedTokens.RefreshToken,
+            generatedTokens.SessionId
+        );
+
+        return Result.Success(loggedInUser);
     }
 }

@@ -46,8 +46,9 @@ if (app.Environment.IsDevelopment())
 app.UseHsts();
 app.UseHttpsRedirection();
 
+string[] origins = app.Configuration.GetSection("AllowedOrigins").Get<string[]>()!;
 app.UseCors(x => x
-    .SetIsOriginAllowed(_ => true)
+    .WithOrigins(origins)
     .AllowAnyMethod()
     .AllowAnyHeader()
     .AllowCredentials()

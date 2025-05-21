@@ -1,3 +1,4 @@
 # @import ../variables.http
 
-GET /api/articles/?approval=approved
+GET /api/articles
+Authorization: Bearer {{adminAccessToken}}

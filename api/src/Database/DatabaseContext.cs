@@ -18,12 +18,12 @@ public class DatabaseContext(DbContextOptions options) : IdentityDbContext<User,
     public DbSet<Article> Articles { get; set; }
     public DbSet<AssignedOptedInService> AssignedOptedInServices { get; set; }
     public DbSet<Client> Clients { get; set; }
+    public DbSet<Community> Communitys { get; set; }
+    public DbSet<CommunityThread> CommunityThreads { get; set; }
+    public DbSet<CommunityThreadComment> CommunityThreadComments { get; set; }
+    public DbSet<CommunityThreadImage> CommunityThreadImages { get; set; }
+    public DbSet<CommunityThreadVote> CommunityThreadVotes { get; set; }
     public DbSet<Feedback> Feedbacks { get; set; }
-    public DbSet<Forum> Forums { get; set; }
-    public DbSet<ForumThread> ForumThreads { get; set; }
-    public DbSet<ForumThreadComment> ForumThreadComments { get; set; }
-    public DbSet<ForumThreadImage> ForumThreadImages { get; set; }
-    public DbSet<ForumThreadVote> ForumThreadVotes { get; set; }
     public DbSet<Member> Members { get; set; }
     public DbSet<OptedInService> OptedInServices { get; set; }
     public DbSet<OptedInServiceQuery> OptedInServiceQueries { get; set; }
@@ -47,7 +47,7 @@ public class DatabaseContext(DbContextOptions options) : IdentityDbContext<User,
         builder.HasPostgresEnum<Enums.OtpPurpose>();
         builder.HasPostgresEnum<Enums.LoggedInWith>();
         builder.HasPostgresEnum<Enums.ArticleApprovalStatus>();
-        builder.HasPostgresEnum<Enums.ForumThreadVoteType>();
+        builder.HasPostgresEnum<Enums.CommunityThreadVoteType>();
         builder.HasPostgresEnum<Enums.AssignedOptedInServiceStatus>();
 
         new UserOtpEntityConfiguration().Configure(builder.Entity<UserOtp>());
@@ -56,12 +56,12 @@ public class DatabaseContext(DbContextOptions options) : IdentityDbContext<User,
         new ArticleEntityConfiguration().Configure(builder.Entity<Article>());
         new AssignedOptedInServiceEntityConfiguration().Configure(builder.Entity<AssignedOptedInService>());
         new ClientEntityConfiguration().Configure(builder.Entity<Client>());
+        new CommunityEntityConfiguration().Configure(builder.Entity<Community>());
+        new CommunityThreadCommentEntityConfiguration().Configure(builder.Entity<CommunityThreadComment>());
+        new CommunityThreadEntityConfiguration().Configure(builder.Entity<CommunityThread>());
+        new CommunityThreadImageEntityConfiguration().Configure(builder.Entity<CommunityThreadImage>());
+        new CommunityThreadVoteEntityConfiguration().Configure(builder.Entity<CommunityThreadVote>());
         new FeedbackEntityConfiguration().Configure(builder.Entity<Feedback>());
-        new ForumEntityConfiguration().Configure(builder.Entity<Forum>());
-        new ForumThreadCommentEntityConfiguration().Configure(builder.Entity<ForumThreadComment>());
-        new ForumThreadEntityConfiguration().Configure(builder.Entity<ForumThread>());
-        new ForumThreadImageEntityConfiguration().Configure(builder.Entity<ForumThreadImage>());
-        new ForumThreadVoteEntityConfiguration().Configure(builder.Entity<ForumThreadVote>());
         new MemberEntityConfiguration().Configure(builder.Entity<Member>());
         new OptedInServiceEntityConfiguration().Configure(builder.Entity<OptedInService>());
         new OptedInServiceQueryEntityConfiguration().Configure(builder.Entity<OptedInServiceQuery>());

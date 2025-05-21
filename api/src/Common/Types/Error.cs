@@ -7,3 +7,4 @@ public record ConflictError(string? Message = null) : Error(Message);
 public record NotFoundError(string? Message = null) : Error(Message);
 public record CannotProcessError(string? Message = null) : Error(Message);
 public record BadRequestError(string? Message = null) : Error(Message);
+public record ForbiddenError(string? Message = null) : Error(Message);

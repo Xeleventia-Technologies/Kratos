@@ -12,12 +12,17 @@ public class Service(
     [FromServices] IImageUploadService imageUploadService
 )
 {
-    public async Task<Result> UpdateAsync(long articleId, Request request, CancellationToken cancellationToken)
+    public async Task<Result> UpdateAsync(long userId, long articleId, Request request, CancellationToken cancellationToken)
     {
         Article? existingArticle = await repo.GetByIdAsync(articleId, cancellationToken);
         if (existingArticle is null)
         {
             return Result.NotFoundError("Article not found");
+        }
+
+        if (existingArticle.CreatedByUserId != userId)
+        {
+            return Result.ForbiddenError("Cannot update this article");
         }
 
         string? uploadedImageFileName = null;

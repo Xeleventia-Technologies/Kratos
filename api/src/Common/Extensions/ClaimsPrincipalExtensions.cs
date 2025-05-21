@@ -1,6 +1,5 @@
 using System.Security.Claims;
 
-using Kratos.Api.Common.Constants;
 using CustomClaim = Kratos.Api.Common.Constants.Claim;
 
 namespace Kratos.Api.Common.Extensions;
@@ -13,8 +12,8 @@ public static class ClaimsPrincipalExtensions
         return long.Parse(id);
     }
 
-    public static string GetSessionId(this ClaimsPrincipal claims)
+    public static string? GetUserRole(this ClaimsPrincipal claims)
     {
-        return claims.FindFirstValue(TokenType.SessionId.Name)!;
+        return claims.FindFirstValue(ClaimTypes.Role)!;
     }
 }

@@ -8,7 +8,7 @@ using Kratos.Api.Common.Extensions;
 using Kratos.Api.Common.Types;
 using Kratos.Api.Common.Options;
 using Kratos.Api.Common.Constants;
-using Kratos.Api.Common.Utils;
+using Kratos.Api.Common.Services;
 
 namespace Kratos.Api.Features.Auth.Login;
 
@@ -27,7 +27,7 @@ public static class Handler
             return validationResult.AsHttpError();
         }
 
-        Result<GeneratedTokens> loginResult = await service.LoginAsync(request.Email, request.Password, request.SessionId, cancellationToken);
+        Result<LoggedInUser> loginResult = await service.LoginAsync(request.Email, request.Password, request.SessionId, cancellationToken);
         return loginResult.AsHttpResponse();
     }
 
@@ -37,6 +37,7 @@ public static class Handler
         [FromBody] RequestWeb request,
         [FromServices] IValidator<RequestWeb> requestValidator,
         [FromServices] Service service,
+        [FromServices] ICookieService cookieService,
         [FromServices] IOptions<JwtOptions> jwtOptions,
         CancellationToken cancellationToken
     )
@@ -49,17 +50,30 @@ public static class Handler
             return validationResult.AsHttpError();
         }
 
-        Result<GeneratedTokens> result = await service.LoginAsync(request.Email, request.Password, sessionId, cancellationToken);
+        Result<LoggedInUser> result = await service.LoginAsync(request.Email, request.Password, sessionId, cancellationToken);
         if (!result.IsSuccess)
         {
             return result.Error.AsHttpError();
         }
 
-        GeneratedTokens generatedTokens = result.Value!;
+        LoggedInUser loggedInUser = result.Value!;
 
-        httpResponse.AppendCookie(TokenType.SessionId.Name, generatedTokens.SessionId, path: "/", DateTimeOffset.UtcNow.AddDays(jwtOptions.Value.RefreshTokenExpiryInDays));
-        httpResponse.AppendCookie(TokenType.RefreshToken.Name, generatedTokens.RefreshToken, Registry.RefreshTokensWebUrl, DateTimeOffset.UtcNow.AddDays(jwtOptions.Value.RefreshTokenExpiryInDays));
+        cookieService.AppendCookie(
+            httpResponse,
+            TokenType.SessionId.Name,
+            loggedInUser.SessionId,
+            path: "/",
+            DateTimeOffset.UtcNow.AddDays(jwtOptions.Value.RefreshTokenExpiryInDays)
+        );
+
+        cookieService.AppendCookie(
+            httpResponse,
+            TokenType.RefreshToken.Name,
+            loggedInUser.RefreshToken,
+            path: Registry.RefreshTokensWebUrl,
+            DateTimeOffset.UtcNow.AddDays(jwtOptions.Value.RefreshTokenExpiryInDays)
+        );
         
-        return Results.Ok(new OnlyAccessToken(generatedTokens.AccessToken));
+        return Results.Ok(loggedInUser.AsWebUser());
     }
 }
