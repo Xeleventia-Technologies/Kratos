@@ -15,7 +15,11 @@ public static class DataSource
         return cache.GetOrAdd(connectionString, connectionString =>
         {
             NpgsqlDataSourceBuilder builder = new(connectionString);
+            builder.MapEnum<Enums.OtpPurpose>();
             builder.MapEnum<Enums.LoggedInWith>();
+            builder.MapEnum<Enums.ArticleApprovalStatus>();
+            builder.MapEnum<Enums.CommunityThreadVoteType>();
+            builder.MapEnum<Enums.AssignedOptedInServiceStatus>();
             
             return builder.Build();
         });
