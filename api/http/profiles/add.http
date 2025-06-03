@@ -1,5 +1,4 @@
 # @import ../variables.http
-
 POST /api/profile
 Authorization: Bearer {{userAccessToken}}
 Content-Type: multipart/form-data; boundary=WebKitFormBoundary
